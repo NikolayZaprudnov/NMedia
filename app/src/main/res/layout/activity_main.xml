@@ -18,7 +18,7 @@
         tools:src="@sample/posts_avatar" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/content"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="textView" />
+        app:constraint_referenced_ids="content" />
 
     <TextView
         android:id="@+id/amountReposts"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@android:drawable/star_big_on" />
+        app:srcCompat="@drawable/ic_baseline_likes" />
 
     <ImageView
         android:id="@+id/comments"
@@ -79,7 +79,7 @@
         app:layout_constraintEnd_toStartOf="@+id/amountComments"
         app:layout_constraintStart_toEndOf="@+id/likes"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@android:drawable/sym_action_chat" />
+        app:srcCompat="@drawable/ic_baseline_comments" />
 
     <TextView
         android:id="@+id/amounLikes"
@@ -98,7 +98,7 @@
         app:layout_constraintEnd_toStartOf="@+id/amountReposts"
         app:layout_constraintStart_toEndOf="@+id/comments"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@android:drawable/ic_menu_set_as" />
+        app:srcCompat="@drawable/ic_baseline_repost" />
 
     <TextView
         android:id="@+id/amountComments"
@@ -116,7 +116,7 @@
         android:layout_marginStart="80dp"
         app:layout_constraintStart_toEndOf="@+id/reposts"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@android:drawable/ic_menu_view" />
+        app:srcCompat="@drawable/ic_baseline_views" />
 
     <TextView
         android:id="@+id/amountViews"
@@ -127,5 +127,13 @@
         app:layout_constraintStart_toEndOf="@+id/views"
         app:layout_constraintTop_toTopOf="@id/reposts"
         app:layout_constraintBottom_toBottomOf="@id/reposts" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        app:layout_constraintStart_toStartOf="@id/authorName"
+        app:layout_constraintTop_toBottomOf="@id/authorName"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
