@@ -63,19 +63,23 @@
         app:layout_constraintStart_toEndOf="@+id/reposts"
         app:layout_constraintTop_toTopOf="@id/reposts" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
         app:srcCompat="@drawable/ic_baseline_likes" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/comments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/amountComments"
         app:layout_constraintStart_toEndOf="@+id/likes"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
@@ -90,11 +94,13 @@
         app:layout_constraintBottom_toBottomOf="@id/reposts"
         app:layout_constraintStart_toEndOf="@id/likes" />
 
-    <ImageView
+    <ImageButton
         android:id="@+id/reposts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
+        android:background="@android:color/transparent"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toStartOf="@+id/amountReposts"
         app:layout_constraintStart_toEndOf="@+id/comments"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
@@ -114,6 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintStart_toEndOf="@+id/reposts"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
         app:srcCompat="@drawable/ic_baseline_views" />
