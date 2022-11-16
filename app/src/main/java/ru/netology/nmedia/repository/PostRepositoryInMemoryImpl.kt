@@ -36,6 +36,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
             likedByMe = !it.likedByMe)}
         data.value = post
     }
+    override fun repost(){
+        post = post.map { it.copy(
+            repostAmount = it.repostAmount++
+        ) }
+    }
 
     override fun converter(amount: Int): String {
         var convert =  when(amount){
