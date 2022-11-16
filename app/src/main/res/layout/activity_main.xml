@@ -1,146 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/avatar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck"
-        app:srcCompat="@drawable/avatarka" />
-
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="0dp"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/nmedia"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/post_card"></androidx.recyclerview.widget.RecyclerView>
 
-    <TextView
-        android:id="@+id/authorName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:gravity="center_vertical"
-        android:singleLine="true"
-        android:text="@string/author_name"
-        app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/avatar"
-        app:layout_constraintTop_toTopOf="@id/avatar" />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar,authorName" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="content" />
-
-    <TextView
-        android:id="@+id/amountReposts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts"
-        app:layout_constraintStart_toEndOf="@+id/reposts"
-        app:layout_constraintTop_toTopOf="@id/reposts" />
-
-    <ImageButton
-        android:id="@+id/likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_likes" />
-
-    <ImageButton
-        android:id="@+id/comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/amountComments"
-        app:layout_constraintStart_toEndOf="@+id/likes"
-        app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_comments" />
-
-    <TextView
-        android:id="@+id/amounLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/likes"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts"
-        app:layout_constraintStart_toEndOf="@id/likes" />
-
-    <ImageButton
-        android:id="@+id/reposts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/amountReposts"
-        app:layout_constraintStart_toEndOf="@+id/comments"
-        app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_repost" />
-
-    <TextView
-        android:id="@+id/amountComments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/comments"
-        app:layout_constraintStart_toEndOf="@+id/comments"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts" />
-
-    <ImageView
-        android:id="@+id/views"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toEndOf="@+id/reposts"
-        app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_views" />
-
-    <TextView
-        android:id="@+id/amountViews"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/views"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/views"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts" />
-
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/date"
-        app:layout_constraintStart_toStartOf="@id/authorName"
-        app:layout_constraintTop_toBottomOf="@id/authorName"/>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
