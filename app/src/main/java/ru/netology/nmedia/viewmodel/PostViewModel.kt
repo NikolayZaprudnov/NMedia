@@ -10,4 +10,5 @@ class PostViewModel : ViewModel() {
     fun likeById(id: Int) = repository.likeById(id)
     fun times() = repository.times()
     fun converter(amount: Int) = repository.converter(amount)
+    fun repost() = repository.repost()
 }

@@ -37,9 +37,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = post
     }
     override fun repost(){
-        post = post.map { it.copy(
-            repostAmount = it.repostAmount++
-        ) }
+        post = post.map { it.copy(repostAmount = it.repostAmount++)}
+            data.value = post
     }
 
     override fun converter(amount: Int): String {
