@@ -15,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ImageContrastCheck"
-        tools:src="@sample/posts_avatar" />
+        app:srcCompat="@drawable/avatarka" />
 
     <TextView
         android:id="@+id/content"
