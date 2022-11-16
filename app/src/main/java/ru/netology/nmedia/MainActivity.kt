@@ -18,11 +18,11 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val viewModel: PostViewModel by viewModels()
-        val adapter = PostsAdapter {
-            viewModel.likeById(it.id)
-            viewModel.repost()
-            viewModel.times()
-        }
+        val adapter = PostsAdapter (
+            {viewModel.likeById(it.id)},
+            {viewModel.repost()},
+            {viewModel.times()}
+        )
         binding.list.adapter = adapter
         viewModel.data.observe(this) { post ->
             adapter.submitList(post)
