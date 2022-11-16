@@ -9,5 +9,5 @@ interface PostRepository {
     fun likeById(id: Int)
     fun times()
     fun converter(amount: Int): String
-    fun repost()
+    fun repostById(id: Int)
 }
