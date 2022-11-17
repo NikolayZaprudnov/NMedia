@@ -8,6 +8,5 @@ interface PostRepository {
     fun getAll(): LiveData<List<Post>>
     fun likeById(id: Int)
     fun times()
-    fun converter(amount: Int): String
     fun repostById(id: Int)
 }
