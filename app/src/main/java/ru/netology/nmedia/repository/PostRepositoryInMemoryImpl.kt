@@ -10,9 +10,11 @@ import java.time.LocalDateTime
 
 class PostRepositoryInMemoryImpl : PostRepository {
     @RequiresApi(Build.VERSION_CODES.O)
+    private var nextId = 1L
+    @RequiresApi(Build.VERSION_CODES.O)
     private var post = listOf(
         Post(
-            1,
+            id = nextId++,
             "Запруднов Николай",
             "10.11.2022 21:22",
             "Внезапно, действия представителей оппозиции неоднозначны и будут описаны максимально подробно. Но граница обучения кадров, а также свежий взгляд на привычные вещи — безусловно открывает новые горизонты для поэтапного и последовательного развития общества. Повседневная практика показывает, что глубокий уровень погружения влечет за собой процесс внедрения и модернизации глубокомысленных рассуждений. В рамках спецификации современных стандартов, ключевые особенности структуры проекта объединены в целые кластеры себе подобных. В рамках спецификации современных стандартов, реплицированные с зарубежных источников, современные исследования заблокированы в рамках своих собственных рациональных ограничений.\n",
@@ -20,7 +22,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             999,
             999999),
         Post(
-            2,
+            id = nextId++,
             "Некто",
             "Какое то",
             "Какой то,",
@@ -29,7 +31,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             0
         ),
         Post(
-            3,
+            id = nextId++,
             "Таинственный Тестовый Человечек",
             time = Instant.now().toString(),
             "Редуцио — уменьшает объект.\n" +
@@ -92,7 +94,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getAll(): LiveData<List<Post>> = data
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun likeById(id: Int) {
+    override fun likeById(id: Long) {
         post = post.map {
             if (it.id != id) it else it.copy(
                 likesAmount = (if (it.likedByMe) it.likesAmount - 1 else it.likesAmount + 1),
@@ -102,7 +104,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun repostById(id: Int) {
+    override fun repostById(id: Long) {
         post = post.map { if (it.id != id) it else it.copy(repostAmount = it.repostAmount + 1) }
         data.value = post
     }
@@ -111,6 +113,31 @@ class PostRepositoryInMemoryImpl : PostRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun times() {
         post = post.map { it.copy(time = LocalDateTime.now().toString()) }
+        data.value = post
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun removeById(id: Long) {
+        post = post.filter {it.id != id }
+        data.value = post
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun save(postS: Post) {
+        if (postS.id == 0L) {
+            post = listOf(
+                postS.copy(
+                    id = nextId++,
+                    authorName = "Me",
+                    likedByMe = false,
+                    time = "now"
+                )
+            ) + post
+            data.value = post
+            return
+        }
+        post = post.map {
+            if (it.id != postS.id) it else it.copy(content = postS.content)
+        }
         data.value = post
     }
 }

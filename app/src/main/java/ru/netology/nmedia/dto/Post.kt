@@ -1,7 +1,7 @@
 package ru.netology.nmedia.dto
 
 data class Post(
-    val id: Int,
+    val id: Long,
     val authorName: String,
     val time: String,
     val content: String,

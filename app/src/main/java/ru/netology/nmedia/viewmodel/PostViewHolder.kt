@@ -1,17 +1,15 @@
 package ru.netology.nmedia.viewmodel
 
+import android.view.View
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
-typealias OnLikeListener = (post: Post) -> Unit
-typealias OnRepostListener = (post: Post) -> Unit
-typealias OnRootListener = (post: Post) -> Unit
 class PostViewHolder(
     private val binding: PostCardBinding,
-    private val onLikeListener: OnLikeListener,
-    private val onRootListener: OnRootListener,
-    private val onRepostListener: OnRepostListener
+   private val onInteractionListener: OnInteractionListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -22,14 +20,32 @@ class PostViewHolder(
             amounLikes.text = converter(post.likesAmount)
             amountReposts.text = converter(post.repostAmount)
             likes.setOnClickListener {
-                onLikeListener(post)
+                onInteractionListener.onLike(post)
             }
             root.setOnClickListener {
-                onRootListener(post)
+                onInteractionListener.onRoot(post)
             }
             reposts.setOnClickListener {
-                onRepostListener(post)
+                onInteractionListener.onRepost(post)
 
+            }
+            menu.setOnClickListener {
+                PopupMenu(it.context , it).apply{
+                    inflate(R.menu.option_post)
+                    setOnMenuItemClickListener { item ->
+                        when(item.itemId){
+                            R.id.remove -> {
+                                onInteractionListener.onRemove(post)
+                                true
+                            }
+                            R.id.edit ->{
+                                onInteractionListener.onEdit(post)
+                                true
+                            }
+                            else -> false
+                        }
+                    }
+                }.show()
             }
         }
     }

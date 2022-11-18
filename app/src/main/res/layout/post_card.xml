@@ -36,7 +36,7 @@
         android:singleLine="true"
         android:text="@string/author_name"
         app:layout_constraintBottom_toBottomOf="@id/avatar"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/menu"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="@id/avatar" />
 
@@ -142,6 +142,17 @@
         android:text="@string/date"
         app:layout_constraintStart_toStartOf="@id/authorName"
         app:layout_constraintTop_toBottomOf="@id/authorName"/>
+
+    <ImageButton
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/authorName"
+        app:layout_constraintBottom_toBottomOf="@id/authorName"
+        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

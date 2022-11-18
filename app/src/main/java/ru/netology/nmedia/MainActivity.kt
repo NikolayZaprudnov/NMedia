@@ -7,9 +7,12 @@ import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 import android.os.Build
+import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
-
-
+import ru.netology.nmedia.adapter.OnInteractionListener
+import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.util.AndroidUtils
 
 
 class MainActivity : AppCompatActivity() {
@@ -18,36 +21,71 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val viewModel: PostViewModel by viewModels()
-        val adapter = PostsAdapter (
-            {viewModel.likeById(it.id)},
-            {viewModel.times()},
-            {viewModel.repostById(it.id)}
-        )
+
+        val adapter = PostsAdapter(object : OnInteractionListener {
+            override fun onEdit(post: Post) {
+                binding.editGroup.visibility = View.VISIBLE
+                viewModel.edit(post)
+            }
+
+            override fun onLike(post: Post) {
+                viewModel.likeById(post.id)
+            }
+
+            override fun onRemove(post: Post) {
+                viewModel.removeById(post.id)
+            }
+        })
         binding.list.adapter = adapter
-        viewModel.data.observe(this) { post ->
-            adapter.submitList(post)
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
+        }
+
+        viewModel.edited.observe(this) { post ->
+            if (post.id == 0L) {
+                return@observe
+            }
+            with(binding.content) {
+                requestFocus()
+                setText(post.content)
+            }
+        }
+        binding.notEdit.setOnClickListener {
+            with(binding.content){
+                if (text.isNotEmpty()){
+                    Toast.makeText(
+                        this@MainActivity,
+                        context.getString(R.string.notEdit),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    text.clear()
+                    binding.editGroup.visibility = View.GONE
+                    AndroidUtils.hideKeyboard(this)
+                }
+            }
+
+        }
+
+        binding.save.setOnClickListener {
+            with(binding.content) {
+                if (text.isNullOrBlank()) {
+                    Toast.makeText(
+                        this@MainActivity,
+                        context.getString(R.string.error_empty_content),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@setOnClickListener
+                }
+
+                viewModel.changeContent(text.toString())
+                viewModel.save()
+
+                setText("")
+                clearFocus()
+                binding.editGroup.visibility = View.GONE
+                AndroidUtils.hideKeyboard(this)
+            }
         }
     }
 }
-  //      viewModel.data.observe(this) { post ->
- //           post.map { post ->
- //               PostCardBinding.inflate(layoutInflater, binding.container, true).apply {
-//                    authorName.text = post.authorName
-//                    time.text = post.time
-//                    content.text = post.content
-//                    likes.setImageResource(if (post.likedByMe) R.drawable.ic_baseline_star_24 else R.drawable.ic_baseline_likes)
-//                    amounLikes.text = viewModel.converter(post.likesAmount)
-//                    amountReposts.text = viewModel.converter(post.repostAmount)
-//                    likes.setOnClickListener {
-//                        viewModel.likeById(post.id)
-//                        amounLikes.text = viewModel.converter(post.likesAmount)
-//                        root.setOnClickListener {
-//                            viewModel.times()
-//                        }
-//                        reposts.setOnClickListener {
-//                            post.repostAmount++
-//                            amountReposts.text = viewModel.converter(post.repostAmount)
-//
-//                        }
-//                    }
-// //}
+

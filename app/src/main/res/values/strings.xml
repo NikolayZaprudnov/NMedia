@@ -1,10 +1,16 @@
 <resources>
-    <string name="app_name" translatable="false">NMedia</string>
+    <string name="app_name">NMedia</string>
     <string name="nmedia">Внезапно, действия представителей оппозиции неоднозначны и будут описаны максимально подробно. Но граница обучения кадров, а также свежий взгляд на привычные вещи — безусловно открывает новые горизонты для поэтапного и последовательного развития общества. Повседневная практика показывает, что глубокий уровень погружения влечет за собой процесс внедрения и модернизации глубокомысленных рассуждений. В рамках спецификации современных стандартов, ключевые особенности структуры проекта объединены в целые кластеры себе подобных. В рамках спецификации современных стандартов, реплицированные с зарубежных источников, современные исследования заблокированы в рамках своих собственных рациональных ограничений.</string>
     <string name="author_name">Author Name</string>
     <string name="reposts">Reposts</string>
     <string name="likes">Likes</string>
     <string name="comments">Comments</string>
     <string name="views">Views</string>
-    <string name="date" translatable="false">Date</string> />
+    <string name="date" translatable="false">Date</string>
+    <string name="post_text" translatable="false">Post Text</string>
+    <string name="error_empty_content">Content cant be empty</string>
+    <string name="notEdit">Editing has been ondone</string>
+    <string name="remove">Remove</string>
+    <string name="edit">Edit</string>
+    />
 </resources>
