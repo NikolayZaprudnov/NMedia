@@ -14,8 +14,22 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck"
-        app:srcCompat="@drawable/avatarka" />
+        app:srcCompat="@drawable/avatarka"
+        tools:ignore="ImageContrastCheck" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/likes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/likes"
+        android:checkable="true"
+        android:background="@android:color/transparent"
+        android:textSize="16dp"
+        app:icon="@drawable/ic_baseline_star_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier1"
+        style="@style/Widget.Material3.LikeCheckBox"/>
+
 
     <TextView
         android:id="@+id/content"
@@ -63,57 +77,51 @@
         app:layout_constraintStart_toEndOf="@+id/reposts"
         app:layout_constraintTop_toTopOf="@id/reposts" />
 
-    <ImageButton
-        android:id="@+id/likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_likes" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/likes"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/barrier1"-->
+<!--        app:srcCompat="@drawable/ic_baseline_likes" />-->
 
     <ImageButton
         android:id="@+id/comments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
-        android:background="@android:color/transparent"
         android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/amountComments"
+        android:background="@android:color/transparent"
         app:layout_constraintStart_toEndOf="@+id/likes"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
         app:srcCompat="@drawable/ic_baseline_comments" />
 
-    <TextView
-        android:id="@+id/amounLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/likes"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts"
-        app:layout_constraintStart_toEndOf="@id/likes" />
 
-    <ImageButton
+<!--    <ImageButton-->
+<!--        android:id="@+id/reposts"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="70dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/amountReposts"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/comments"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/barrier1"-->
+<!--        app:srcCompat="@drawable/ic_baseline_repost" />-->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/reposts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="70dp"
         android:background="@android:color/transparent"
-        android:layout_marginTop="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/amountReposts"
-        app:layout_constraintStart_toEndOf="@+id/comments"
+        android:textSize="16dp"
+        style="@style/Widget.Material3.RepostCheckBox"
+        app:icon="@drawable/ic_baseline_repost"
+        app:layout_constraintStart_toEndOf="@id/comments"
         app:layout_constraintTop_toBottomOf="@id/barrier1"
-        app:srcCompat="@drawable/ic_baseline_repost" />
+       />
 
-    <TextView
-        android:id="@+id/amountComments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/comments"
-        app:layout_constraintStart_toEndOf="@+id/comments"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts" />
+
 
     <ImageView
         android:id="@+id/views"
@@ -130,10 +138,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/views"
+        app:layout_constraintBottom_toBottomOf="@id/reposts"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/views"
-        app:layout_constraintTop_toTopOf="@id/reposts"
-        app:layout_constraintBottom_toBottomOf="@id/reposts" />
+        app:layout_constraintTop_toTopOf="@id/reposts" />
 
     <TextView
         android:id="@+id/time"
@@ -141,17 +149,17 @@
         android:layout_height="wrap_content"
         android:text="@string/date"
         app:layout_constraintStart_toStartOf="@id/authorName"
-        app:layout_constraintTop_toBottomOf="@id/authorName"/>
+        app:layout_constraintTop_toBottomOf="@id/authorName" />
 
     <ImageButton
         android:id="@+id/menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
         android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@id/authorName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/authorName"
-        app:layout_constraintBottom_toBottomOf="@id/authorName"
         app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

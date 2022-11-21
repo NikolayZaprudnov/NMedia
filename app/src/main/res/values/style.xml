@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.Material3.LikeCheckBox"
+        parent = "Widget.Material3.Button.TextButton.Icon">
+        <item name="iconTint">@color/like_checkbox_tint</item>
+    </style>
+    <style name="Widget.Material3.RepostCheckBox"
+        parent="Widget.Material3.Button.TextButton.Icon">
+        <item name="iconTint">@color/black</item>
+    </style>
+</resources>
