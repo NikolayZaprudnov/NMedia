@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.likeById(post.id)
             }
 
+            override fun onRepost(post: Post) {
+                viewModel.repostById(post.id)
+            }
+
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
             }

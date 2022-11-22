@@ -18,7 +18,6 @@ class PostViewHolder(
             content.text = post.content
             likes.isChecked = post.likedByMe
             likes.text = converter(post.likesAmount)
-           // amountReposts.text = converter(post.repostAmount)
             reposts.text = converter(post.repostAmount)
             likes.setOnClickListener {
                 onInteractionListener.onLike(post)
