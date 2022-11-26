@@ -9,6 +9,7 @@ import android.widget.Toast
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityNewPostBinding
 import ru.netology.nmedia.util.AndroidUtils
+import kotlin.contracts.contract
 
 class EditPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

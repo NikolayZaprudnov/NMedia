@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
         }
         val editPostLauncher = registerForActivityResult(EditPostResultContract()){
                 result -> result ?: return@registerForActivityResult
-            val editpost = viewModel.changeContent(result) as Post
-            viewModel.edit(editpost)
+            viewModel.changeContent(result)
+            viewModel.save()
         }
 
         val adapter = PostsAdapter(object : OnInteractionListener {
@@ -61,8 +61,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onEdit(post: Post) {
-                editPostLauncher.launch(post)
-                //viewModel.edit(post)
+                viewModel.edit(post)
             }
         })
         binding.list.adapter = adapter
@@ -74,10 +73,7 @@ class MainActivity : AppCompatActivity() {
             if (post.id == 0L) {
                 return@observe
             }
-            with(binding.content) {
-                requestFocus()
-                setText(post.content)
-            }
+            editPostLauncher.launch(post)
         }
         binding.notEdit.setOnClickListener {
             with(binding.content){
