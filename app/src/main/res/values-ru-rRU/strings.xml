@@ -11,4 +11,5 @@
     <string name="remove">Удалить</string>
     <string name="edit">Редактировать</string>
     <string name="notEdit">Редактирование было отменено</string>
+    <string name="add_post" />
 </resources>

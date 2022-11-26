@@ -1,7 +1,9 @@
 package ru.netology.nmedia.repository
 
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.nmedia.dto.Post
@@ -11,6 +13,7 @@ import java.time.LocalDateTime
 class PostRepositoryInMemoryImpl : PostRepository {
     @RequiresApi(Build.VERSION_CODES.O)
     private var nextId = 1L
+
     @RequiresApi(Build.VERSION_CODES.O)
     private var post = listOf(
         Post(
@@ -20,7 +23,9 @@ class PostRepositoryInMemoryImpl : PostRepository {
             "Внезапно, действия представителей оппозиции неоднозначны и будут описаны максимально подробно. Но граница обучения кадров, а также свежий взгляд на привычные вещи — безусловно открывает новые горизонты для поэтапного и последовательного развития общества. Повседневная практика показывает, что глубокий уровень погружения влечет за собой процесс внедрения и модернизации глубокомысленных рассуждений. В рамках спецификации современных стандартов, ключевые особенности структуры проекта объединены в целые кластеры себе подобных. В рамках спецификации современных стандартов, реплицированные с зарубежных источников, современные исследования заблокированы в рамках своих собственных рациональных ограничений.\n",
             false,
             999,
-            999999),
+            999999,
+            "https://youtu.be/dQw4w9WgXcQ"
+    ),
         Post(
             id = nextId++,
             "Некто",
@@ -28,7 +33,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
             "Какой то,",
             false,
             0,
-            0
+            0,
+            null
         ),
         Post(
             id = nextId++,
@@ -85,14 +91,17 @@ class PostRepositoryInMemoryImpl : PostRepository {
                     "Эскуро, тергео — очищающие заклятия.",
             false,
             0,
-            0
+            0,
+            null
 
         ))
+
     @RequiresApi(Build.VERSION_CODES.O)
     private val data = MutableLiveData(post)
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getAll(): LiveData<List<Post>> = data
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun likeById(id: Long) {
         post = post.map {
@@ -118,9 +127,10 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun removeById(id: Long) {
-        post = post.filter {it.id != id }
+        post = post.filter { it.id != id }
         data.value = post
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun save(postS: Post) {
         if (postS.id == 0L) {

@@ -16,7 +16,8 @@ private val empty = Post(
     "",
     false,
     0,
-    0
+    0,
+    null
 )
 
 class PostViewModel : ViewModel() {

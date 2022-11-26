@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <ImageView
         android:id="@+id/avatar"
@@ -38,6 +38,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/nmedia"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrier" />
@@ -163,7 +164,36 @@
         app:icon="@android:drawable/ic_menu_sort_by_size"
         style="@style/Widget.EditCheckBox"
         />
+    <ImageButton
+        android:id="@+id/video"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@id/likes"
+        app:srcCompat="@drawable/art_kartinka"/>
 
+    <TextView
+        android:id="@+id/url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="URL"
+        app:layout_constraintTop_toBottomOf="@id/video"/>
+
+    <ImageView
+        android:id="@+id/play"
+        android:layout_width="118dp"
+        android:layout_height="119dp"
+        app:layout_constraintBottom_toBottomOf="@id/video"
+        app:layout_constraintEnd_toEndOf="@id/video"
+        app:layout_constraintStart_toStartOf="@id/video"
+        app:layout_constraintTop_toTopOf="@id/video"
+        app:srcCompat="@android:drawable/ic_menu_slideshow" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/videoGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="video,play,url" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

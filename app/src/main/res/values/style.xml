@@ -2,7 +2,7 @@
 <resources>
     <style name="Widget.LikeCheckBox"
         parent = "Widget.MaterialComponents.Button.TextButton.Icon">
-        <item name="iconTint">@color/like_checkbox_tint</item>
+        <item name="iconTint">@color/like_tint</item>
     </style>
     <style name="Widget.RepostCheckBox"
         parent="Widget.MaterialComponents.Button.TextButton.Icon">
