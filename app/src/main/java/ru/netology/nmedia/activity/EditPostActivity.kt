@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityNewPostBinding
@@ -18,6 +19,7 @@ class EditPostActivity : AppCompatActivity() {
         val binding = ActivityNewPostBinding.inflate(layoutInflater)
         binding.not.visibility = View.VISIBLE
         setContentView(binding.root)
+        binding.editText.setText(binding.editText.getText().toString() + intent.getStringExtra(Intent.EXTRA_TEXT))
         binding.editText.requestFocus()
         binding.ok.setOnClickListener {
             val intent = Intent()
