@@ -51,10 +51,12 @@ class PostViewHolder(
 
             }
             video.setOnClickListener {
-                val startVideo = Intent(Intent.ACTION_VIEW)
-                startVideo.addCategory(Intent.CATEGORY_BROWSABLE)
-                startVideo.setData(Uri.parse(post.video))
-              //  startActivity(startVideo)
+                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                startActivity(startVideo)
+            }
+            play.setOnClickListener {
+                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+                startActivity(startVideo)
             }
             menu.setOnClickListener {
                 PopupMenu(it.context , it).apply{
