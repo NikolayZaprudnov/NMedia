@@ -54,7 +54,7 @@ class PostViewHolder(
                 val startVideo = Intent(Intent.ACTION_VIEW)
                 startVideo.addCategory(Intent.CATEGORY_BROWSABLE)
                 startVideo.setData(Uri.parse(post.video))
-                startActivity(startVideo)
+              //  startActivity(startVideo)
             }
             menu.setOnClickListener {
                 PopupMenu(it.context , it).apply{
@@ -66,12 +66,6 @@ class PostViewHolder(
                                 true
                             }
                             R.id.edit ->{
-                                val editPostLauncher = registerForActivityResult(
-                                    EditPostResultContract()){
-                                        result -> result ?: return@registerForActivityResult
-                                    viewModel.edit(result)
-                                }
-                                editPostLauncher.start()
                                 onInteractionListener.onEdit(post)
                                 true
                             }

@@ -13,7 +13,6 @@ interface OnInteractionListener{
     fun onRoot(post: Post){}
     fun onRemove(post: Post){}
     fun onEdit(post: Post){}
-    fun onPlay(post: Post){}
 }
 
 class PostsAdapter(

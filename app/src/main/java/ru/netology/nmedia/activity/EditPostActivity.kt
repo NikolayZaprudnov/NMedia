@@ -17,14 +17,14 @@ class EditPostActivity : AppCompatActivity() {
         val binding = ActivityNewPostBinding.inflate(layoutInflater)
         binding.not.visibility = View.VISIBLE
         setContentView(binding.root)
-        binding.edit.requestFocus()
+        binding.editText.requestFocus()
         binding.ok.setOnClickListener {
             val intent = Intent()
-            if (binding.edit.text.isBlank()) {
+            if (binding.editText.text.isBlank()) {
                 setResult(Activity.RESULT_CANCELED, intent)
             } else {
 
-                val content = binding.edit.text.toString()
+                val content = binding.editText.text.toString()
                 intent.putExtra(Intent.EXTRA_TEXT, content)
                 setResult(Activity.RESULT_OK, intent)
             }

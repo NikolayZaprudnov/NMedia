@@ -30,21 +30,14 @@ class MainActivity : AppCompatActivity() {
             viewModel.changeContent(result)
             viewModel.save()
         }
+        val editPostLauncher = registerForActivityResult(EditPostResultContract()){
+                result -> result ?: return@registerForActivityResult
+            val editpost = viewModel.changeContent(result) as Post
+            viewModel.edit(editpost)
+        }
 
         val adapter = PostsAdapter(object : OnInteractionListener {
-            override fun onEdit(post: Post) {
-               val intent = Intent().apply {
-                   action = Intent.ACTION_EDIT
-                   putExtra(Intent.EXTRA_TEXT, post.content)
-                   type = "text/plain"
-               }
-                startActivity(intent)
-                viewModel.edit(post)
-            }
-            val editPostLauncher = registerForActivityResult(EditPostResultContract()){
-                result -> result ?: return@registerForActivityResult
-                viewModel.edit(result)
-            }
+
 
             override fun onLike(post: Post) {
                 viewModel.likeById(post.id)
@@ -65,6 +58,11 @@ class MainActivity : AppCompatActivity() {
 
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
+            }
+
+            override fun onEdit(post: Post) {
+                editPostLauncher.launch(post)
+                //viewModel.edit(post)
             }
         })
         binding.list.adapter = adapter
