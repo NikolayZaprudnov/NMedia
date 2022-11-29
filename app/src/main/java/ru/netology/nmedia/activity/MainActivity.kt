@@ -63,6 +63,11 @@ class MainActivity : AppCompatActivity() {
             override fun onEdit(post: Post) {
                 viewModel.edit(post)
             }
+
+            override fun onPlay(post: Post) {
+                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+               startActivity(startVideo)
+            }
         })
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->

@@ -28,16 +28,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/description_post_save"
-        app:srcCompat="@drawable/ic_baseline_ok_24"
         app:layout_anchor="@id/bottomAppBar"
-        />
+        app:srcCompat="@drawable/ic_baseline_ok_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/not"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:contentDescription="@string/description_post_save"
+        android:visibility="visible"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@android:drawable/ic_delete" />
 

@@ -11,7 +11,7 @@ import ru.netology.nmedia.dto.Post
 class EditPostResultContract : ActivityResultContract<Post, String?>() {
     override fun createIntent(context: Context, input: Post): Intent =
         Intent(context, EditPostActivity::class.java)
-            .putExtra("edited_text", input.content)
+            .putExtra(Intent.EXTRA_TEXT, input.content)
 
     override fun parseResult(resultCode: Int, intent: Intent?): String? =
         if (resultCode == Activity.RESULT_OK) {

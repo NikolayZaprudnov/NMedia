@@ -1,5 +1,6 @@
 package ru.netology.nmedia.viewmodel
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.Gravity.apply
@@ -51,12 +52,12 @@ class PostViewHolder(
 
             }
             video.setOnClickListener {
-                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-                startActivity(startVideo)
+//
+                onInteractionListener.onPlay(post)
             }
             play.setOnClickListener {
-                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-                startActivity(startVideo)
+                onInteractionListener.onPlay(post)
+
             }
             menu.setOnClickListener {
                 PopupMenu(it.context , it).apply{
