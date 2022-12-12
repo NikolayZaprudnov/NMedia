@@ -39,11 +39,7 @@ class FeedFragment : Fragment() {
 //        setContentView(binding.root)
         val viewModel: PostViewModel by viewModels()
 
-        val newPostLauncher = registerForActivityResult(NewPostResultContract()){
-                result -> result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
+
         val editPostLauncher = registerForActivityResult(EditPostResultContract()){
                 result -> result ?: return@registerForActivityResult
             viewModel.changeContent(result)

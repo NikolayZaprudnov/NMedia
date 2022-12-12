@@ -11,7 +11,7 @@ import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 import util.StringArg
 
-class New : Fragment() {
+class NewPostFragment : Fragment() {
     companion object {
         var Bundle.textArg: String? by StringArg
     }
@@ -32,7 +32,6 @@ class New : Fragment() {
 //        val binding = ActivityNewPostBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
         binding.editText.requestFocus()
-        val viewModel: PostViewModel by viewModels()
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.editText.text.toString())
             viewModel.save()

@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import ru.netology.nmedia.R
-import ru.netology.nmedia.activity.New.Companion.textArg
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {

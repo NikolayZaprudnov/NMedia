@@ -2,41 +2,25 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-<<<<<<< HEAD
     android:id="@+id/nav_main"
-=======
-    android:id="@+id/nav_host_fragment"
->>>>>>> ee743ff26d41c620d2278161dbe4ffb3a2fa3194
     app:startDestination="@id/feedFragment">
 
     <fragment
         android:id="@+id/feedFragment"
         android:name="ru.netology.nmedia.activity.FeedFragment"
         android:label="fragment_feed"
-        tools:layout="@layout/fragment_feed" >
+        tools:layout="@layout/fragment_feed">
         <action
             android:id="@+id/action_feedFragment_to_newPostFragment"
-            app:destination="@id/newPostFragment" />
-<<<<<<< HEAD
-    </fragment>
-    <fragment
-        android:id="@+id/newPostFragment"
-        android:name="ru.netology.nmedia.activity.AppActivity"
-        android:label="fragment_new_post"
-        tools:layout="@layout/fragment_new_post" />
-=======
-        <action
-            android:id="@+id/action_feedFragment_to_editPostFragment"
-            app:destination="@id/editPostFragment" />
+            app:destination="@id/newPostFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/newPostFragment"
         android:name="ru.netology.nmedia.activity.NewPostFragment"
         android:label="fragment_new_post"
         tools:layout="@layout/fragment_new_post" />
-    <fragment
-        android:id="@+id/editPostFragment"
-        android:name="ru.netology.nmedia.activity.EditPostFragment"
-        android:label="EditPostFragment" />
->>>>>>> ee743ff26d41c620d2278161dbe4ffb3a2fa3194
 </navigation>
