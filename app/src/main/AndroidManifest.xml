@@ -21,7 +21,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.FeedFragment"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +34,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activity.IntentHandlerActivity"
+            android:name=".activity.AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.NewPostActivity"
+            android:name=".activity.NewPostFragment"
             android:exported="false" />
     </application>
 

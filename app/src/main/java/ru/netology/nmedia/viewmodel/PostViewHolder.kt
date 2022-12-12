@@ -18,12 +18,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.adapter.PostsAdapter
-import ru.netology.nmedia.databinding.ActivityMainBinding
+
 import ru.netology.nmedia.viewmodel.PostViewModel
 import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.core.content.ContextCompat
-import ru.netology.nmedia.activity.EditPostResultContract
+
 import ru.netology.nmedia.util.AndroidUtils
 class PostViewHolder(
     private val binding: PostCardBinding,
