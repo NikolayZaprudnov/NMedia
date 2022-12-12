@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import ru.netology.nmedia.R
-import ru.netology.nmedia.databinding.ActivityNewPostBinding
+import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.util.AndroidUtils
 import kotlin.contracts.contract
 
@@ -16,7 +16,7 @@ class EditPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityNewPostBinding.inflate(layoutInflater)
+        val binding = FragmentNewPostBinding.inflate(layoutInflater)
         binding.not.visibility = View.VISIBLE
         setContentView(binding.root)
         binding.editText.setText(binding.editText.getText().toString() + intent.getStringExtra(Intent.EXTRA_TEXT))
