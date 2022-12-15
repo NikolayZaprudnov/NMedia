@@ -14,6 +14,7 @@ interface OnInteractionListener{
     fun onRemove(post: Post){}
     fun onEdit(post: Post){}
     fun onPlay(post: Post)
+    fun onOpen(post: Post)
 }
 
 class PostsAdapter(

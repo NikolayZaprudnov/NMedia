@@ -1,6 +1,8 @@
 package ru.netology.nmedia.repository
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -13,10 +15,9 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
     private val gson = Gson()
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
     private val filename = "post.json"
-    private var nextId = 1L
-
     private var post = emptyList<Post>()
     private val data = MutableLiveData(post)
+    private var nextId = 1L
 
     init {
         val file = context.filesDir.resolve(filename)
@@ -24,6 +25,7 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
             context.openFileInput(filename).bufferedReader().use {
                 post = gson.fromJson(it, type)
                 data.value = post
+                nextId = post.lastIndex + 1L
             }
         } else {
             sync()
@@ -31,6 +33,7 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
 
     override fun getAll(): LiveData<List<Post>> = data
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun times() {
         post = post.map { it.copy(time = LocalDateTime.now().toString()) }
         data.value = post
@@ -79,5 +82,9 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
             sync()
             return
         }
+        post = post.map {
+            if (it.id != postS.id) it else it.copy(content = postS.content)
+        }
+        data.value = post
 
 }}

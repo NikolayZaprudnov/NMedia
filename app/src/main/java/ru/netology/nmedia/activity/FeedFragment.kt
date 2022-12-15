@@ -12,10 +12,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.launch
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
+import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
@@ -23,6 +25,9 @@ import ru.netology.nmedia.util.AndroidUtils
 
 
 class FeedFragment : Fragment() {
+    private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,17 +39,6 @@ class FeedFragment : Fragment() {
             false
         )
 
-//        super.onCreate(savedInstanceState)
-//        val binding = ActivityMainBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
-        val viewModel: PostViewModel by viewModels()
-
-
-        val editPostLauncher = registerForActivityResult(EditPostResultContract()){
-                result -> result ?: return@registerForActivityResult
-            viewModel.changeContent(result)
-            viewModel.save()
-        }
 
         val adapter = PostsAdapter(object : OnInteractionListener {
 
@@ -63,6 +57,21 @@ class FeedFragment : Fragment() {
                 val shareIntent = Intent.createChooser(intent, "Repost post")
                 startActivity(shareIntent)
             }
+
+            override fun onOpen(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
+                    Bundle().apply {
+                        arguments = bundleOf(
+                            "authorId" to post.authorName,
+                            "content" to post.content,
+                            "id" to post.id,
+                            "time" to post.time,
+                            "likeByme" to post.likedByMe,
+                            "likeAm" to post.likesAmount,
+                            "repostAm" to post.repostAmount,
+                            "video" to post.video
+                        )
+            })}
 
 
 
@@ -88,25 +97,21 @@ class FeedFragment : Fragment() {
             if (post.id == 0L) {
                 return@observe
             }
-            editPostLauncher.launch(post)
+            findNavController().navigate(R.id.action_feedFragment_to_editPostFragment,
+            Bundle().apply {
+                textArg = post.content
+                arguments = bundleOf(
+                    "authorId" to post.authorName,
+                "content" to post.content
+                )
+            })
         }
-//        binding.notEdit.setOnClickListener {
-//            with(binding.content){
-////                if (text.isNotEmpty()){
-////                    Toast.makeText(
-////                        this@FeedFragment,
-////                        context.getString(R.string.notEdit),
-////                        Toast.LENGTH_SHORT
-////                    ).show()
-//                    text.clear()
-//                    binding.editGroup.visibility = View.GONE
-//                    AndroidUtils.hideKeyboard(this)
-//                }
-//            }
 
         binding.newpost.setOnClickListener{
            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
         }
+
+
 
 //        binding.save.setOnClickListener {
 //            with(binding.content) {

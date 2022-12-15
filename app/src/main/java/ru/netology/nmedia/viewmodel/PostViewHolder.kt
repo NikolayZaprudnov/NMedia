@@ -23,7 +23,13 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.core.content.ContextCompat
-import ru.netology.nmedia.activity.EditPostResultContract
+import androidx.navigation.Navigation
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
+import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
+import ru.netology.nmedia.activity.FeedFragment
+import ru.netology.nmedia.activity.OnePostFragment
 import ru.netology.nmedia.util.AndroidUtils
 class PostViewHolder(
     private val binding: PostCardBinding,
@@ -41,8 +47,11 @@ class PostViewHolder(
             if (url.text.isNullOrEmpty()){
                 videoGroup.visibility = View.GONE
             }
+            bigButton.setOnClickListener{
+               onInteractionListener.onOpen(post)
+            }
             likes.setOnClickListener {
-                onInteractionListener.onLike(post)
+              onInteractionListener.onLike(post)
             }
             root.setOnClickListener {
                 onInteractionListener.onRoot(post)
@@ -59,6 +68,7 @@ class PostViewHolder(
                 onInteractionListener.onPlay(post)
 
             }
+
             menu.setOnClickListener {
                 PopupMenu(it.context , it).apply{
                     inflate(R.menu.option_post)
@@ -69,6 +79,7 @@ class PostViewHolder(
                                 true
                             }
                             R.id.edit ->{
+//                                findNavController(FeedFragment).navigate(R.id.action_feedFragment_to_editPostFragment)
                                 onInteractionListener.onEdit(post)
                                 true
                             }

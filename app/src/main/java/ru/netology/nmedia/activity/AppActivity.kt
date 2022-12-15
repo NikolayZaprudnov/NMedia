@@ -9,7 +9,7 @@ import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
-       super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
 //        val binding = ActivityIntentHandlerBinding.inflate(layoutInflater)
 //        setContentView(binding.root)
 
@@ -25,9 +25,11 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container).navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply {
                 textArg = text
             })
-            }
+        }
+
 //            else {
 //                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
-            }
-        }
+    }
+}
+
 

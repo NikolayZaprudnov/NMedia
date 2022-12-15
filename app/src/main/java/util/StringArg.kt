@@ -1,6 +1,7 @@
 package util
 
 import android.os.Bundle
+import ru.netology.nmedia.dto.Post
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -13,3 +14,5 @@ object StringArg: ReadWriteProperty<Bundle, String?> {
     override fun getValue(thisRef: Bundle, property: KProperty<*>): String? =
         thisRef.getString(property.name)
 }
+
+
