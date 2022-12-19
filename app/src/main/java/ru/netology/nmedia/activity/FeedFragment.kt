@@ -61,16 +61,7 @@ class FeedFragment : Fragment() {
             override fun onOpen(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
                     Bundle().apply {
-                        arguments = bundleOf(
-                            "authorId" to post.authorName,
-                            "content" to post.content,
-                            "id" to post.id,
-                            "time" to post.time,
-                            "likeByme" to post.likedByMe,
-                            "likeAm" to post.likesAmount,
-                            "repostAm" to post.repostAmount,
-                            "video" to post.video
-                        )
+                        val idArg = putLong("id", post.id)
             })}
 
 

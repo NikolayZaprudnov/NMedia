@@ -14,6 +14,7 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.adapter.PostsAdapter
+import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.databinding.FragmentOnePostBinding
 import ru.netology.nmedia.databinding.PostCardBinding
@@ -33,11 +34,12 @@ class OnePostFragment : Fragment(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = PostCardBinding.inflate(
+        val binding = FragmentOnePostBinding.inflate(
             inflater,
             container,
             false
         )
+        val passedId = arguments?.getLong("id")
         val adapter = PostsAdapter(object : OnInteractionListener {
 
             override fun onLike(post: Post) {
@@ -57,6 +59,7 @@ class OnePostFragment : Fragment(
 
             override fun onRemove(post: Post) {
                 viewModel.removeById(post.id)
+                findNavController().navigateUp()
             }
 
             override fun onEdit(post: Post) {
@@ -72,21 +75,17 @@ class OnePostFragment : Fragment(
                 TODO("Not yet implemented")
             }
         })
-        binding.authorName.text = requireArguments().getString("authorId")
-        binding.likes.text = requireArguments().getInt("likeAm").toString()
-        binding.content.text = requireArguments().getString("content")
-        binding.reposts.text = requireArguments().getInt("repostAm").toString()
-        binding.url.text = requireArguments().getString("video")
-//        binding.list.adapter = adapter
+
+        binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts)
+            adapter.submitList(posts.filter { it.id == passedId })
         }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
                 return@observe
             }
-            findNavController().navigate(R.id.action_feedFragment_to_editPostFragment,
+            findNavController().navigate(R.id.action_onePostFragment_to_editPostFragment,
                 Bundle().apply {
                     textArg = post.content
                     arguments = bundleOf(
@@ -95,6 +94,8 @@ class OnePostFragment : Fragment(
                     )
                 })
         }
+//
+
 
 
         return binding.root

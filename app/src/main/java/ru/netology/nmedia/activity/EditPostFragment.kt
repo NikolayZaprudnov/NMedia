@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
@@ -43,37 +44,12 @@ class EditPostFragment : Fragment() {
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.editText.text.toString())
             viewModel.save()
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.feedFragment)
         }
         binding.not.setOnClickListener {
-            findNavController().navigateUp()
+            findNavController().navigate(R.id.feedFragment)
         }
         return binding.root
     }
 }
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//
-//        val binding = FragmentNewPostBinding.inflate(layoutInflater)
-//        binding.not.visibility = View.VISIBLE
-//        setContentView(binding.root)
-//        binding.editText.setText(binding.editText.getText().toString() + intent.getStringExtra(Intent.EXTRA_TEXT))
-//        binding.editText.requestFocus()
-//        binding.ok.setOnClickListener {
-//            val intent = Intent()
-//            if (binding.editText.text.isBlank()) {
-//                setResult(Activity.RESULT_CANCELED, intent)
-//            } else {
-//
-//                val content = binding.editText.text.toString()
-//                intent.putExtra(Intent.EXTRA_TEXT, content)
-//                setResult(Activity.RESULT_OK, intent)
-//            }
-//            finish()
-//        }
-//        binding.not.setOnClickListener{
-//            finish()
-//        }
-//    }
-//}
 

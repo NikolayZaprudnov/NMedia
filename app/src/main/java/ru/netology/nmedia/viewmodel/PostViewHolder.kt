@@ -47,15 +47,15 @@ class PostViewHolder(
             if (url.text.isNullOrEmpty()){
                 videoGroup.visibility = View.GONE
             }
-            bigButton.setOnClickListener{
+            root.setOnClickListener{
                onInteractionListener.onOpen(post)
             }
             likes.setOnClickListener {
               onInteractionListener.onLike(post)
             }
-            root.setOnClickListener {
-                onInteractionListener.onRoot(post)
-            }
+//            root.setOnClickListener {
+//                onInteractionListener.onRoot(post)
+//            }
             reposts.setOnClickListener {
                 onInteractionListener.onRepost(post)
 
