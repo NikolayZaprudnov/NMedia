@@ -28,10 +28,11 @@ class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         val binding = FragmentFeedBinding.inflate(
             inflater,
@@ -62,8 +63,8 @@ class FeedFragment : Fragment() {
                 findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
                     Bundle().apply {
                         val idArg = putLong("id", post.id)
-            })}
-
+                    })
+            }
 
 
             override fun onRemove(post: Post) {
@@ -76,7 +77,7 @@ class FeedFragment : Fragment() {
 
             override fun onPlay(post: Post) {
                 val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-               startActivity(startVideo)
+                startActivity(startVideo)
             }
         })
         binding.list.adapter = adapter
@@ -89,19 +90,21 @@ class FeedFragment : Fragment() {
                 return@observe
             }
             findNavController().navigate(R.id.action_feedFragment_to_editPostFragment,
-            Bundle().apply {
-                textArg = post.content
-                arguments = bundleOf(
-                    "authorId" to post.authorName,
-                "content" to post.content
-                )
-            })
+                Bundle().apply {
+                    textArg = post.content
+                    arguments = bundleOf(
+                        "authorId" to post.authorName,
+                        "content" to post.content
+                    )
+                })
         }
-
-        binding.newpost.setOnClickListener{
-           findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+        val draftText = arguments?.textArg.toString()
+        binding.newpost.setOnClickListener {
+            findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
+            Bundle().apply{
+                textArg = draftText
+            }
         }
-
 
 
 //        binding.save.setOnClickListener {
@@ -125,6 +128,7 @@ class FeedFragment : Fragment() {
 //            }
 //        }
 
-   return binding.root }
+        return binding.root
+    }
 }
 
