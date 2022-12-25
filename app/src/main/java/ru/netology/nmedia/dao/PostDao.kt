@@ -16,7 +16,7 @@ interface PostDao {
     fun updateContentById(id: Long, content: String)
     @Query("""
         UPDATE PostEntity SET
-        likesAmount = likesAmount = CASE WHEN likedByMe THEN -1 ELSE 1 END,
+        likesAmount = likesAmount + CASE WHEN likedByMe THEN -1 ELSE +1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
         WHERE id = :id
     """)
