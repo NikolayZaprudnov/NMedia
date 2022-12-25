@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -42,6 +43,7 @@ class NewPostFragment : Fragment() {
             val editor = savedDraft!!.edit()
             editor.putString(SETTING, draft)
             editor.apply()
+            Toast.makeText(context,R.string.draftText, Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.feedFragment)
         }
         draft = savedDraft!!.getString(SETTING, "").toString()
@@ -51,7 +53,7 @@ class NewPostFragment : Fragment() {
             viewModel.changeContent(binding.editText.text.toString())
             viewModel.save()
             val editor = savedDraft!!.edit()
-            draft = ""
+            draft = null
             editor.putString(SETTING, draft)
             editor.apply()
             findNavController().navigateUp()

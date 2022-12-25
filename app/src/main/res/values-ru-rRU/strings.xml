@@ -7,6 +7,7 @@
     <string name="likes">Лайки</string>
     <string name="comments">Комменты</string>
     <string name="views">Просмотры</string>
+    <string name="draftText">Черновик сохранён</string>
     <string name="error_empty_content">Текст поста не может быть пустым</string>
     <string name="remove">Удалить</string>
     <string name="edit">Редактировать</string>

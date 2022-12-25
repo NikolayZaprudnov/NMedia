@@ -5,6 +5,7 @@
     <string name="reposts">Reposts</string>
     <string name="likes">Likes</string>
     <string name="comments">Comments</string>
+    <string name="draftText">Draft saved</string>
     <string name="views">Views</string>
     <string name="date" translatable="false">Date</string>
     <string name="post_text" translatable="false">Post Text</string>
