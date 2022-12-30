@@ -72,7 +72,6 @@ class OnePostFragment : Fragment(
             }
 
             override fun onOpen(post: Post) {
-                TODO("Not yet implemented")
             }
         })
 

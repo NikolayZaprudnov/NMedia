@@ -36,10 +36,12 @@ class FCMService : FirebaseMessagingService() {
     override fun onMessageReceived(message: RemoteMessage) {
 
         message.data[action]?.let {
+            if (Action.valueOf(it) == Action.LIKE || Action.valueOf(it) == Action.POST){
             when (Action.valueOf(it)) {
                 Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
-                Action.POST -> handlePost(gson.fromJson(message.data[content], Post::class.java))
-            }
+                Action.POST -> handlePost(gson.fromJson(message.data[content], Post::class.java));
+            }}
+            else{handleExeption()}
         }
     }
 
@@ -56,6 +58,18 @@ class FCMService : FirebaseMessagingService() {
                     content.userName,
                     content.postAuthor,
                 )
+            )
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .build()
+
+        NotificationManagerCompat.from(this)
+            .notify(Random.nextInt(100_000), notification)
+    }
+    private fun handleExeption() {
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(
+                getString(R.string.notification_error)
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
@@ -99,4 +113,5 @@ data class Post(
     val postAuthor: String,
     val postContent: String
 )
+
 

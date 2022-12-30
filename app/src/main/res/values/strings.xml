@@ -16,6 +16,7 @@
     <string name="channel_remote_name">ТNotification</string>
     <string name="notification_user_liked">User %1$s liked post %2$s</string>
     <string name="notification_new_post">Author %1$s public post: </string>
+    <string name="notification_error">Error in sending notification</string>
     <string name="title_activity_intent_handler">IntentHandlerActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
