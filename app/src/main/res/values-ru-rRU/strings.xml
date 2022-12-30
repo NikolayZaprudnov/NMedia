@@ -11,6 +11,10 @@
     <string name="error_empty_content">Текст поста не может быть пустым</string>
     <string name="remove">Удалить</string>
     <string name="edit">Редактировать</string>
+    <string name="channel_remote_name">Уведомление</string>
+    <string name="channel_remote_description">Уведомление с удаленного сервера</string>
+    <string name="notification_user_liked">Пользователь %1$s лайкнул пост %2$s</string>
+    <string name="notification_new_post">Автор %1$s опубликовал пост: </string>
     <string name="notEdit">Редактирование было отменено</string>
     <string name="add_post" />
 </resources>

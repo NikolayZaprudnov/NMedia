@@ -30,6 +30,8 @@ interface PostDao {
     @Query("DELETE FROM PostEntity WHERE id = :id")
     fun removeById(id: Long)
     fun save(post: PostEntity) =
-        if (post.id ==0L) insert(post) else updateContentById(post.id, post.content)
+        if (post.id ==0L) {
+            insert(post)
+        }  else updateContentById(post.id, post.content)
 //    fun times()
 }
