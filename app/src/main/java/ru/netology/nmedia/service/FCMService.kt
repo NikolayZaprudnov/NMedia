@@ -34,16 +34,18 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-
         message.data[action]?.let {
-            if (Action.valueOf(it) == Action.LIKE || Action.valueOf(it) == Action.POST){
-            when (Action.valueOf(it)) {
-                Action.LIKE -> handleLike(gson.fromJson(message.data[content], Like::class.java))
-                Action.POST -> handlePost(gson.fromJson(message.data[content], Post::class.java));
-            }}
-            else{handleExeption()}
+            if (it == "LIKE" || it == "POST") {
+                when (Action.valueOf(it)) {
+                    Action.LIKE -> handleLike(gson.fromJson(message.data[content],
+                        Like::class.java))
+                    Action.POST -> handlePost(gson.fromJson(message.data[content],
+                        Post::class.java))
+                }
+            } else {  handleExeption(gson.fromJson(message.data[content], Error::class.java)) }
         }
     }
+
 
     override fun onNewToken(token: String) {
         println(token)
@@ -65,7 +67,8 @@ class FCMService : FirebaseMessagingService() {
         NotificationManagerCompat.from(this)
             .notify(Random.nextInt(100_000), notification)
     }
-    private fun handleExeption() {
+
+    private fun handleExeption(content: Error) {
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(
@@ -77,6 +80,7 @@ class FCMService : FirebaseMessagingService() {
         NotificationManagerCompat.from(this)
             .notify(Random.nextInt(100_000), notification)
     }
+
     private fun handlePost(content: Post) {
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
@@ -107,11 +111,13 @@ data class Like(
     val postId: Long,
     val postAuthor: String,
 )
+
 data class Post(
     val userId: Long,
     val postId: Long,
     val postAuthor: String,
-    val postContent: String
+    val postContent: String,
 )
+
 
 
