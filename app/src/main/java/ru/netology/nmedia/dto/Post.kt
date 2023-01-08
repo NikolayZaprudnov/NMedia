@@ -1,11 +1,14 @@
 package ru.netology.nmedia.dto
 
+import java.net.URL
+
 data class Post(
-    val id: Int,
+    val id: Long,
     val authorName: String,
     val time: String,
-    val content: String ,
-    var likedByMe: Boolean,
+    val content: String,
+    val likedByMe: Boolean,
     var likesAmount: Int,
-    var repostAmount: Int
+    var repostAmount: Int,
+    val video: String?
 )
