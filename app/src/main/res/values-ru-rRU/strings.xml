@@ -16,6 +16,9 @@
     <string name="notification_user_liked">Пользователь %1$s лайкнул пост %2$s</string>
     <string name="notification_new_post">Автор %1$s опубликовал пост: </string>
     <string name="notification_error">Ошибка в передаче уведомления</string>
+    <string name="empty_posts">Нет постов \n Новые посты будут отображаться здесь</string>
     <string name="notEdit">Редактирование было отменено</string>
+    <string name="retry_loading">Повторить</string>
+    <string name="error_loading">Пожалуйста, попробуйте позже</string>
     <string name="add_post" />
 </resources>

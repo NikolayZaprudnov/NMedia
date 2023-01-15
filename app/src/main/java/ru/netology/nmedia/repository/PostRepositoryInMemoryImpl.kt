@@ -100,7 +100,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
     private val data = MutableLiveData(post)
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun getAll(): LiveData<List<Post>> = data
+    override fun getAll(): List<Post> = data.value!!
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun likeById(id: Long) {

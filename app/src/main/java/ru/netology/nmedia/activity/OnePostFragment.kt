@@ -77,7 +77,8 @@ class OnePostFragment : Fragment(
 
         binding.list.adapter = adapter
         viewModel.data.observe(viewLifecycleOwner) { posts ->
-            adapter.submitList(posts.filter { it.id == passedId })
+            posts.posts.filter { it.id == passedId }
+//            adapter.submitList(posts.filter { it.id == passedId })
         }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->

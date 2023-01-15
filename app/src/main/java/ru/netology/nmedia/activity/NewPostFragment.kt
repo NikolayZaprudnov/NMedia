@@ -56,6 +56,10 @@ class NewPostFragment : Fragment() {
             draft = null
             editor.putString(SETTING, draft)
             editor.apply()
+//            findNavController().navigateUp()
+        }
+        viewModel.postCreated.observe(viewLifecycleOwner){
+            viewModel.loadPosts()
             findNavController().navigateUp()
         }
         return binding.root

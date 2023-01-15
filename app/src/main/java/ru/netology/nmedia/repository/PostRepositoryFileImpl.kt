@@ -16,7 +16,7 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
     private val type = TypeToken.getParameterized(List::class.java, Post::class.java).type
     private val filename = "post.json"
     private var post = emptyList<Post>()
-    private val data = MutableLiveData(post)
+    private val data =  MutableLiveData(post)
     private var nextId = 1L
 
     init {
@@ -31,7 +31,7 @@ class PostRepositoryFileImpl(private val context: Context) : PostRepository {
             sync()
         }}
 
-    override fun getAll(): LiveData<List<Post>> = data
+    override fun getAll(): List<Post> = data.value!!
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun times() {
