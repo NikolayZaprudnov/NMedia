@@ -17,6 +17,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
@@ -46,7 +47,9 @@ class FeedFragment : Fragment() {
 
 
             override fun onLike(post: Post) {
-                viewModel.likeById(post.id)
+                if (post.likedByMe == false){
+                viewModel.likeById(post.id)}
+                else{viewModel.unlikeById(post.id)}
             }
 
             override fun onRepost(post: Post) {
@@ -94,6 +97,10 @@ class FeedFragment : Fragment() {
         binding.retryButton.setOnClickListener{
             viewModel.loadPosts()
         }
+    binding.refresh.setOnRefreshListener{
+        viewModel.loadPosts()
+        binding.refresh.isRefreshing = false
+    }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {

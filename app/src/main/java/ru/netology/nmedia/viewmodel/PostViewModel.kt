@@ -53,7 +53,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             }.also(_data::postValue)
         }
     }
-    fun likeById(id: Long) {thread { repository.likeById(id) }}
+    fun likeById(id: Long) {thread { repository.likeById(id) }
+    loadPosts()}
+    fun unlikeById(id: Long){thread { repository.unlikeById(id) }
+    loadPosts()}
     fun times() = repository.times()
     fun repostById(id: Long) = repository.repostById(id)
     fun removeById(id: Long) {

@@ -7,6 +7,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
+import okhttp3.internal.EMPTY_REQUEST
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModel
 import java.util.concurrent.TimeUnit
@@ -37,15 +38,25 @@ class PostRepositoryImpl: PostRepository {
     }
 
     override fun likeById(id: Long) {
-        val posts = getAll().map {
-            if (it.id != id) it else it.copy(
-                likesAmount = (if (it.likedByMe) it.likesAmount - 1 else it.likesAmount + 1),
-                likedByMe = !it.likedByMe)
-        }
+//        val posts = getAll().map {
+//            if (it.id != id) it else it.copy(
+//                likesAmount = (if (it.likedByMe) it.likesAmount - 1 else it.likesAmount + 1),
+//                likedByMe = !it.likedByMe)
+//        }
           val request: Request = Request.Builder()
-              .post(gson.toJson(posts).toRequestBody(jsonType))
-              .url("${BASE_URL}/api/slow/posts")
+              .post(EMPTY_REQUEST)
+              .url("${BASE_URL}/api/slow/posts/$id/likes")
               .build()
+
+        client.newCall(request)
+            .execute()
+            .close()
+    }
+    override fun unlikeById(id: Long) {
+        val request: Request = Request.Builder()
+            .delete()
+            .url("${BASE_URL}/api/slow/posts/$id/likes")
+            .build()
 
         client.newCall(request)
             .execute()
