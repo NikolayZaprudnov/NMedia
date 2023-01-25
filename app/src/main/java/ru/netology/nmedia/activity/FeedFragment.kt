@@ -4,14 +4,10 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.viewmodel.PostViewModel
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.result.launch
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -122,28 +118,6 @@ class FeedFragment : Fragment() {
                 textArg = draftText
             }
         }
-
-
-//        binding.save.setOnClickListener {
-//            with(binding.content) {
-//                if (text.isNullOrBlank()) {
-//                    Toast.makeText(
-//                        this@MainActivity,
-//                        context.getString(R.string.error_empty_content),
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                    return@setOnClickListener
-//                }
-//
-//                viewModel.changeContent(text.toString())
-//                viewModel.save()
-//
-//                setText("")
-//                clearFocus()
-//                binding.editGroup.visibility = View.GONE
-//                AndroidUtils.hideKeyboard(this)
-//            }
-//        }
 
         return binding.root
     }
