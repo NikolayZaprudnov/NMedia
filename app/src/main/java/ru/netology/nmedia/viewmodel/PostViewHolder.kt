@@ -39,7 +39,7 @@ class PostViewHolder(
     fun bind(post: Post) {
         binding.apply {
             authorName.text = post.authorName
-            val avatarUrl = "http://10.0.2.2:9999/avatars/${post.autorAvatar}"
+            val avatarUrl = "http://10.0.2.2:9999/avatars/${post.authorAvatar}"
             Glide.with(avatar)
                 .load(avatarUrl)
                 .fitCenter()
