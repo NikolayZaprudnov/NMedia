@@ -14,6 +14,7 @@ import kotlin.concurrent.thread
 private val empty = Post(
     0,
     "",
+    "netology.jpg",
     "",
     "",
     false,
@@ -48,15 +49,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 _data.postValue(FeedModel(error = true))
             }
         })
-//        thread {
-//            _data.postValue(FeedModel(loading = true))
-//            try {
-//                val posts = repository.getAll()
-//                FeedModel(posts = posts, empty = posts.isEmpty())
-//            } catch (e: IOException) {
-//                FeedModel(error = true)
-//            }.also(_data::postValue)
-//        }
     }
 
     fun likeById(id: Long) {

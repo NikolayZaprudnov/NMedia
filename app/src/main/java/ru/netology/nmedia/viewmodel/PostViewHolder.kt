@@ -27,6 +27,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.activity.FeedFragment
 import ru.netology.nmedia.activity.OnePostFragment
@@ -38,6 +39,14 @@ class PostViewHolder(
     fun bind(post: Post) {
         binding.apply {
             authorName.text = post.authorName
+            val avatarUrl = "http://10.0.2.2:9999/avatars/${post.autorAvatar}"
+            Glide.with(avatar)
+                .load(avatarUrl)
+                .fitCenter()
+                .placeholder(R.drawable.ic_baseline_load_face_100)
+                .error(R.drawable.ic_baseline_error_100)
+                .timeout(10_000)
+                .into(avatar)
             time.text = post.time
             content.text = post.content
             likes.isChecked = post.likedByMe

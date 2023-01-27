@@ -94,10 +94,6 @@ class OnePostFragment : Fragment(
                     )
                 })
         }
-//
-
-
-
         return binding.root
     }
 }

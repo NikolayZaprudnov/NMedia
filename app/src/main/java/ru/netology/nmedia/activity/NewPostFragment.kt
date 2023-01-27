@@ -56,7 +56,6 @@ class NewPostFragment : Fragment() {
             draft = null
             editor.putString(SETTING, draft)
             editor.apply()
-//            findNavController().navigateUp()
         }
         viewModel.postCreated.observe(viewLifecycleOwner){
             viewModel.loadPosts()
@@ -65,16 +64,3 @@ class NewPostFragment : Fragment() {
         return binding.root
     }
 }
-//            val intent = Intent()
-//            if( binding.editText.text.isBlank()){
-//                setResult(Activity.RESULT_CANCELED, intent)
-//            } else{
-//
-//            val content = binding.editText.text.toString()
-//            intent.putExtra(Intent.EXTRA_TEXT, content)
-//            setResult(Activity.RESULT_OK, intent)
-//            }
-////            finish()
-//        }
-//    }
-//}
