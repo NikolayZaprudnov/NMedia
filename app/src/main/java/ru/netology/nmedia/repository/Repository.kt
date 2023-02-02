@@ -10,7 +10,7 @@ interface PostRepository {
     fun repostById(id: Long, callback: CallbackFoPost)
     fun unlikeById(id: Long, callback: CallbackFoPost)
     fun removeById(id: Long, callback: CallbackFoPost)
-    fun save(postS: Post)
+    fun save(postS: Post, callback: CallbackFoPost)
     fun getAllAsynch(callback: Callback<List<Post>>)
     interface Callback <T>{
         fun onSucces(data: T) {}

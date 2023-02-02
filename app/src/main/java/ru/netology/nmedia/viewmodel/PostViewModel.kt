@@ -104,7 +104,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun save() {
         edited.value?.let {
             thread {
-                repository.save(it)
+                repository.save(it,  object: PostRepository.CallbackFoPost{})
                 _postCreated.postValue(Unit)
             }
         }
