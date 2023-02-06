@@ -28,11 +28,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             manifestPlaceholders.usesCleartextTraffic = false
-            buidConfigField "String", "BASE_URL", '"https://netomedia.ru"'
+            buildConfigField "String", "BASE_URL", '"https://netomedia.ru"'
         }
         debug{
             manifestPlaceholders.usesCleartextTraffic = true
-            buidConfigField "String", "BASE_URL", '"https://10.0.2.2:9999"'
+            buildConfigField "String", "BASE_URL", '"https://10.0.2.2:9999"'
         }
     }
     compileOptions {
