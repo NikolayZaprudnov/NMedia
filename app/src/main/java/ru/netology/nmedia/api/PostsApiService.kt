@@ -1,6 +1,7 @@
 package ru.netology.nmedia.api
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -12,25 +13,25 @@ private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
 
 interface PostsApiService {
     @GET("posts")
-    fun getAll(): Call<List<Post>>
+    suspend fun getAll(): Response<List<Post>>
 
     @POST("posts")
-    fun save(@Body post: Post): Call<Post>
+    suspend fun save(@Body post: Post): Response<Post>
 
     @GET("posts/{postId}")
-    fun getPostById(@Path("postId") id: Long): Call<Post>
+    suspend fun getPostById(@Path("postId") id: Long): Response<Post>
 
     @DELETE("posts/{id}")
-    fun removeById(@Path("id") id: Long): Call<Post>
+    suspend fun removeById(@Path("id") id: Long): Response<Post>
 
     @DELETE("posts/{id}/likes")
-    fun unlikeById(@Path("id") id: Long): Call<Post>
+    suspend fun unlikeById(@Path("id") id: Long): Response<Post>
 
     @POST("posts/{id}/likes")
-    fun likeById(@Path("id") id: Long): Call<Post>
+    suspend fun likeById(@Path("id") id: Long): Response<Post>
 
     @POST("posts/{id}/repost")
-    fun repostById(@Path("id") id: Long): Call<Post>
+    suspend fun repostById(@Path("id") id: Long): Response<Post>
 }
 
 object PostsApi {
