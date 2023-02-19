@@ -49,15 +49,6 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             _state.value = FeedModelState(error = true)
         }
     }
-//    fun refreshPosts() = viewModelScope.launch {
-//        try {
-//            _state.value = FeedModelState(refreshing = true)
-//            repository.getAllAsynch()
-//            _state.value = FeedModelState()
-//        }catch (e:Exception){
-//            _state.value = FeedModelState(error = true)
-//        }
-//    }
 
     fun likeById(id: Long) = viewModelScope.launch {
         val errorLike = data.value?.posts.orEmpty()
@@ -112,11 +103,17 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun save() = edited.value?.let {
-        _postCreated.value = Unit
-        viewModelScope.launch {
-                repository.save(it)
-                _state.value = FeedModelState()
+    fun save() {
+        edited.value?.let {
+            _postCreated.value = Unit
+            viewModelScope.launch {
+                try {
+                    repository.save(it)
+                    _state.value = FeedModelState()
+                } catch (e: Exception) {
+                    _state.value = FeedModelState(error = true)
+                }
+            }
         }
         edited.value = empty
     }

@@ -43,9 +43,10 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
     override suspend fun save(postS: Post) {
         val response = PostsApi.retrofitService.save(postS)
         if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
-        response.body() ?: throw RuntimeException("Body is null")
-        postDao.insert(PostEntity.fromDto(response.body()!!))
+        val body = response.body() ?: throw RuntimeException("Body is null")
+        postDao.insert(PostEntity.fromDto(body))
     }
+
     override suspend fun removeById(id: Long): Boolean {
         val response = PostsApi.retrofitService.removeById(id)
         if (!response.isSuccessful){ return false };  return true
