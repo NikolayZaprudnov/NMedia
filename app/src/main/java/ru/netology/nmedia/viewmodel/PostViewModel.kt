@@ -51,56 +51,21 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) = viewModelScope.launch {
-        val errorLike = data.value?.posts.orEmpty()
-        data.value?.copy(data.value?.posts.orEmpty().map {
-            if (it.id != id) it else it.copy(
-                likesAmount = (it.likesAmount + 1),
-                likedByMe = !it.likedByMe)
-        })
-        val result = repository.likeById(id)
-        if (result == false) {
-            data.value?.copy(posts = errorLike)
-        }
+         repository.likeById(id)
     }
 
 
     fun unlikeById(id: Long) = viewModelScope.launch {
-        val errorLike = data.value?.posts.orEmpty()
-        data.value?.copy(data.value?.posts.orEmpty().map {
-            if (it.id != id) it else it.copy(
-                likesAmount = (it.likesAmount - 1),
-                likedByMe = !it.likedByMe)
-        })
-        val result = repository.unlikeById(id)
-        if (result == false) {
-            data.value?.copy(posts = errorLike)
-        }
+       repository.unlikeById(id)
     }
 
     fun times() = repository.times()
     fun repostById(id: Long) = viewModelScope.launch {
-        val errorRepost = data.value?.posts.orEmpty()
-        data.value?.copy(data.value?.posts.orEmpty().map {
-            if (it.id != id) it else it.copy(
-                repostAmount = (it.repostAmount + 1)
-            )
-        })
-        val result = repository.repostById(id)
-        if (result == false) {
-            data.value?.copy(posts = errorRepost)
-        }
+        repository.repostById(id)
     }
 
     fun removeById(id: Long) = viewModelScope.launch {
-
-        val old = data.value?.posts.orEmpty()
-        data.value?.copy(posts = data.value?.posts.orEmpty()
-            .filter { it.id != id }
-        )
-        val result = repository.removeById(id)
-        if (result == false) {
-            data.value?.copy(posts = old)
-        }
+        repository.removeById(id)
     }
 
     fun save() {
