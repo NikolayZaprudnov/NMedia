@@ -42,9 +42,11 @@ class FeedFragment : Fragment() {
 
 
             override fun onLike(post: Post) {
-                if (post.likedByMe == false){
-                viewModel.likeById(post.id)}
-                else{viewModel.unlikeById(post.id)}
+                if (post.likedByMe == false) {
+                    viewModel.likeById(post.id)
+                } else {
+                    viewModel.unlikeById(post.id)
+                }
             }
 
             override fun onRepost(post: Post) {
@@ -80,28 +82,32 @@ class FeedFragment : Fragment() {
             }
         })
         binding.list.adapter = adapter
-        viewModel.state.observe(viewLifecycleOwner) {
-                state ->
+        viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.progress.isVisible = state.loading
-            if(state.error){
+            if (state.error) {
                 Snackbar.make(binding.root, R.string.error_loading, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.retry_loading){viewModel.loadPosts()}
+                    .setAction(R.string.retry_loading) { viewModel.loadPosts() }
                     .show()
             }
         }
 
-        viewModel.data.observe(viewLifecycleOwner) {
-                state ->
+        viewModel.data.observe(viewLifecycleOwner) { state ->
             adapter.submitList(state.posts)
             binding.emptyText.isVisible = state.empty
         }
-//        binding.retryButton.setOnClickListener{
-//            viewModel.loadPosts()
-//        }
-    binding.refresh.setOnRefreshListener{
-        viewModel.loadPosts()
-        binding.refresh.isRefreshing = false
-    }
+        viewModel.newerCount.observe(viewLifecycleOwner){state ->
+            binding.freshPosts.visibility = View.VISIBLE
+
+        }
+        binding.freshPosts.setOnClickListener{
+            viewModel.loadPosts()
+            binding.freshPosts.visibility = View.GONE
+        }
+
+        binding.refresh.setOnRefreshListener {
+            viewModel.loadPosts()
+            binding.refresh.isRefreshing = false
+        }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
@@ -119,7 +125,7 @@ class FeedFragment : Fragment() {
         val draftText = arguments?.textArg.toString()
         binding.newpost.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment)
-            Bundle().apply{
+            Bundle().apply {
                 textArg = draftText
             }
         }

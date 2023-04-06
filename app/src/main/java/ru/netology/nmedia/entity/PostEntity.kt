@@ -23,4 +23,7 @@ data class PostEntity(
         fun fromDto(dto: Post) =
             PostEntity(dto.id, dto.authorName, dto.authorAvatar, dto.time, dto.content, dto.likedByMe, dto.likesAmount, dto.repostAmount, dto.video)
     }
+
 }
+fun List<PostEntity>.toDto(): List<Post> = map(PostEntity::toDto)
+fun List<Post>.toEntity(): List<PostEntity> = map(PostEntity::fromDto)

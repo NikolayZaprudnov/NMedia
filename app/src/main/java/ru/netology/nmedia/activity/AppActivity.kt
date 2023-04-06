@@ -10,8 +10,6 @@ import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 class AppActivity : AppCompatActivity(R.layout.activity_app) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val binding = ActivityIntentHandlerBinding.inflate(layoutInflater)
-//        setContentView(binding.root)
 
         intent?.let {
             if (it.action != Intent.ACTION_SEND) {
@@ -27,8 +25,6 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
             })
         }
 
-//            else {
-//                Toast.makeText(this, text, Toast.LENGTH_LONG).show()
     }
 }
 

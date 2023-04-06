@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context=".activity.FeedFragment">
 
+    <Button
+        android:id="@+id/freshPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fresh Posts"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/emptyText"
+        app:layout_constraintEnd_toEndOf="@id/emptyText"
+        />
 
     <TextView
         android:id="@+id/emptyText"
@@ -39,6 +50,8 @@
         app:layout_constraintBottom_toTopOf="@id/toolsTop"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/post_card" />
+
+
 </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
