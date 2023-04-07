@@ -9,8 +9,15 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PostDao {
-    @Query("SELECT*FROM PostEntity ORDER BY id DESC")
+    @Query("SELECT*FROM PostEntity WHERE hidden = 0 ORDER BY id DESC")
     fun getAll(): Flow<List<PostEntity>>
+
+    @Query(
+        """UPDATE PostEntity SET
+            hidden = 0
+        """
+    )
+    suspend fun showAll()
 
     @Insert(onConflict = REPLACE)
     suspend fun insert(post: PostEntity)

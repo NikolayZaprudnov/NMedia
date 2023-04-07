@@ -11,5 +11,6 @@ data class Post(
     val likedByMe: Boolean,
     var likesAmount: Int,
     var repostAmount: Int,
-    val video: String?
+    val video: String?,
+    var hidden: Boolean = false
 )

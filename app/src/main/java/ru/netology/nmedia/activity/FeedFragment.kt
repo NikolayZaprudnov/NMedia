@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
+import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
 
@@ -96,12 +97,11 @@ class FeedFragment : Fragment() {
             binding.emptyText.isVisible = state.empty
         }
         viewModel.newerCount.observe(viewLifecycleOwner){state ->
-            binding.freshPosts.visibility = View.VISIBLE
+            binding.freshPosts.isVisible = state > 0
 
         }
         binding.freshPosts.setOnClickListener{
-            viewModel.loadPosts()
-            binding.freshPosts.visibility = View.GONE
+           viewModel.showAll()
         }
 
         binding.refresh.setOnRefreshListener {

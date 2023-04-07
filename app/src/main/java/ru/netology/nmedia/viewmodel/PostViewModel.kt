@@ -60,6 +60,9 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
          repository.likeById(id)
     }
 
+    fun showAll() = viewModelScope.launch {
+        repository.showAll()
+    }
 
     fun unlikeById(id: Long) = viewModelScope.launch {
        repository.unlikeById(id)

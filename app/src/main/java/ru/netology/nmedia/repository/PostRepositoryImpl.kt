@@ -11,6 +11,7 @@ import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.entity.PostEntity
+import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.AppError
 
 class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
@@ -23,8 +24,13 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         while (true) {
             delay(10_000L)
             val response = PostsApi.retrofitService.getNewer(id)
+            if (!response.isSuccessful) {
+                throw ApiError(response.code(), response.message())
+            }
             val posts = response.body().orEmpty()
-            postDao.insert(posts.toEntity())
+            postDao.insert(posts.toEntity().map{
+                it.copy(hidden = true)
+            })
             emit(posts.size)
         }
     }
@@ -66,6 +72,9 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         if (!response.isSuccessful) {
             postDao.unrepostById(id)
         }
+    }
+    override suspend fun showAll(){
+        postDao.showAll()
     }
 
     override suspend fun save(postS: Post) {

@@ -14,4 +14,5 @@ interface PostRepository {
     suspend fun removeById(id: Long)
     suspend fun save(postS: Post)
     suspend fun getAllAsynch()
+    suspend fun showAll()
 }
