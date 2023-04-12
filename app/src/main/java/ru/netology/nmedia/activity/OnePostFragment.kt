@@ -63,8 +63,8 @@ class OnePostFragment : Fragment(
             }
 
             override fun onPlay(post: Post) {
-                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-                startActivity(startVideo)
+//                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+//                startActivity(startVideo)
             }
 
             override fun onOpen(post: Post) {
@@ -85,7 +85,7 @@ class OnePostFragment : Fragment(
                 Bundle().apply {
                     textArg = post.content
                     arguments = bundleOf(
-                        "authorId" to post.authorName,
+                        "authorId" to post.author,
                         "content" to post.content
                     )
                 })

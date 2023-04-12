@@ -30,7 +30,7 @@ interface PostDao {
 
     @Query("""
         UPDATE PostEntity SET
-        likesAmount = likesAmount + CASE WHEN likedByMe THEN -1 ELSE +1 END,
+        likes = likes + CASE WHEN likedByMe THEN -1 ELSE +1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
         WHERE id = :id
     """)
@@ -38,25 +38,25 @@ interface PostDao {
 
     @Query("""
         UPDATE PostEntity SET
-        likesAmount = likesAmount + CASE WHEN likedByMe THEN -1 ELSE +1 END,
+        likes = likes + CASE WHEN likedByMe THEN -1 ELSE +1 END,
         likedByMe = CASE WHEN likedByMe THEN 0 ELSE 1 END
         WHERE id = :id
     """)
     suspend fun unlikeById(id: Long)
 
-    @Query("""
-        UPDATE PostEntity SET
-        repostAmount = repostAmount + 1
-        WHERE id = :id
-    """)
-    suspend fun repostById(id: Long)
-
-    @Query("""
-        UPDATE PostEntity SET
-        repostAmount = repostAmount - 1
-        WHERE id = :id
-    """)
-    suspend fun unrepostById(id: Long)
+//    @Query("""
+//        UPDATE PostEntity SET
+//        repostAmount = repostAmount + 1
+//        WHERE id = :id
+//    """)
+//    suspend fun repostById(id: Long)
+//
+//    @Query("""
+//        UPDATE PostEntity SET
+//        repostAmount = repostAmount - 1
+//        WHERE id = :id
+//    """)
+//    suspend fun unrepostById(id: Long)
 
     @Query("DELETE FROM PostEntity WHERE id = :id")
     suspend fun removeById(id: Long)

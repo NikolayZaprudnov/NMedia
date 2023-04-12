@@ -67,11 +67,11 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
     }
 
     override suspend fun repostById(id: Long) {
-        postDao.repostById(id)
-        val response = PostsApi.retrofitService.repostById(id)
-        if (!response.isSuccessful) {
-            postDao.unrepostById(id)
-        }
+//        postDao.repostById(id)
+//        val response = PostsApi.retrofitService.repostById(id)
+//        if (!response.isSuccessful) {
+//            postDao.unrepostById(id)
+//        }
     }
     override suspend fun showAll(){
         postDao.showAll()

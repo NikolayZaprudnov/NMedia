@@ -18,11 +18,11 @@ private val empty = Post(
     "",
     "netology.jpg",
     "",
-    "",
+    0,
     false,
     0,
-    0,
-    null
+    null,
+    false
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {

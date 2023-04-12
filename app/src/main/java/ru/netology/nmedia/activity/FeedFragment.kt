@@ -17,9 +17,9 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
-import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+
 
 
 class FeedFragment : Fragment() {
@@ -78,8 +78,8 @@ class FeedFragment : Fragment() {
             }
 
             override fun onPlay(post: Post) {
-                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
-                startActivity(startVideo)
+//                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
+//                startActivity(startVideo)
             }
         })
         binding.list.adapter = adapter
@@ -105,6 +105,7 @@ class FeedFragment : Fragment() {
         }
 
         binding.refresh.setOnRefreshListener {
+            viewModel.showAll()
             viewModel.loadPosts()
             binding.refresh.isRefreshing = false
         }
@@ -117,7 +118,7 @@ class FeedFragment : Fragment() {
                 Bundle().apply {
                     textArg = post.content
                     arguments = bundleOf(
-                        "authorId" to post.authorName,
+                        "authorId" to post.author,
                         "content" to post.content
                     )
                 })

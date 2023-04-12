@@ -38,7 +38,7 @@ class PostViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
-            authorName.text = post.authorName
+            authorName.text = post.author
             val avatarUrl = "http://10.0.2.2:9999/avatars/${post.authorAvatar}"
             Glide.with(avatar)
                 .load(avatarUrl)
@@ -47,12 +47,12 @@ class PostViewHolder(
                 .error(R.drawable.ic_baseline_error_100)
                 .timeout(10_000)
                 .into(avatar)
-            time.text = post.time
+            time.text = post.published.toString()
             content.text = post.content
             likes.isChecked = post.likedByMe
-            likes.text = converter(post.likesAmount)
-            reposts.text = converter(post.repostAmount)
-            url.text = post.video
+            likes.text = converter(post.likes)
+//            reposts.text = converter(post.repostAmount)
+//            url.text = post.video
             if (url.text.isNullOrEmpty()){
                 videoGroup.visibility = View.GONE
             }
