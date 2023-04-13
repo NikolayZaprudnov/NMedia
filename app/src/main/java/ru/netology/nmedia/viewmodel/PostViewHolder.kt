@@ -31,6 +31,7 @@ import com.bumptech.glide.Glide
 import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
 import ru.netology.nmedia.activity.FeedFragment
 import ru.netology.nmedia.activity.OnePostFragment
+import ru.netology.nmedia.enumeration.AttachmentType
 import ru.netology.nmedia.util.AndroidUtils
 class PostViewHolder(
     private val binding: PostCardBinding,
@@ -51,11 +52,22 @@ class PostViewHolder(
             content.text = post.content
             likes.isChecked = post.likedByMe
             likes.text = converter(post.likes)
+            val attachmentUrl = "http://10.0.2.2:9999/images/${post.attachment?.url}"
+            if (post.attachment != null){
+                videoGroup.visibility = View.VISIBLE
+                Glide.with(attachmentImage)
+                    .load(attachmentUrl)
+                    .fitCenter()
+                    .timeout(10_000)
+                    .error(R.drawable.ic_baseline_error_100)
+                    .into(attachmentImage)
+                url.text = post.attachment?.description
+
+            }
+
 //            reposts.text = converter(post.repostAmount)
 //            url.text = post.video
-            if (url.text.isNullOrEmpty()){
-                videoGroup.visibility = View.GONE
-            }
+
             root.setOnClickListener{
                onInteractionListener.onOpen(post)
             }
@@ -69,14 +81,14 @@ class PostViewHolder(
                 onInteractionListener.onRepost(post)
 
             }
-            video.setOnClickListener {
+            attachmentImage.setOnClickListener {
 //
                 onInteractionListener.onPlay(post)
             }
-            play.setOnClickListener {
-                onInteractionListener.onPlay(post)
-
-            }
+//            play.setOnClickListener {
+//                onInteractionListener.onPlay(post)
+//
+//            }
 
             menu.setOnClickListener {
                 PopupMenu(it.context , it).apply{

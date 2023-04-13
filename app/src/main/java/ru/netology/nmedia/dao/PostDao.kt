@@ -15,6 +15,7 @@ interface PostDao {
     @Query(
         """UPDATE PostEntity SET
             hidden = 0
+            WHERE hidden = 1
         """
     )
     suspend fun showAll()

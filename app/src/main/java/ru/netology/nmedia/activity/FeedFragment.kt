@@ -9,7 +9,9 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -19,7 +21,6 @@ import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
-
 
 
 class FeedFragment : Fragment() {
@@ -96,12 +97,14 @@ class FeedFragment : Fragment() {
             adapter.submitList(state.posts)
             binding.emptyText.isVisible = state.empty
         }
-        viewModel.newerCount.observe(viewLifecycleOwner){state ->
+        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
             binding.freshPosts.isVisible = state > 0
-
         }
-        binding.freshPosts.setOnClickListener{
-           viewModel.showAll()
+        binding.freshPosts.setOnClickListener {
+            viewModel.showAll()
+            var position = ( binding.list.scrollState)
+            binding.list.smoothScrollToPosition(position)
+            binding.freshPosts.isVisible = false
         }
 
         binding.refresh.setOnRefreshListener {
