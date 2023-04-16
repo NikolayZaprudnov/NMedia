@@ -4,15 +4,24 @@ package ru.netology.nmedia.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import ru.netology.nmedia.api.PostsApi
+import ru.netology.nmedia.api.PostsApiService
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.*
 import ru.netology.nmedia.entity.toDto
 import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.dao.PostDao
+import ru.netology.nmedia.dto.Attachment
+import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.entity.PostEntity
+import ru.netology.nmedia.enumeration.AttachmentType
 import ru.netology.nmedia.error.ApiError
 import ru.netology.nmedia.error.AppError
+import ru.netology.nmedia.error.NetworkError
+import ru.netology.nmedia.model.PhotoModel
+import java.io.IOException
 
 class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
 
@@ -28,7 +37,7 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
                 throw ApiError(response.code(), response.message())
             }
             val posts = response.body().orEmpty()
-            postDao.insert(posts.toEntity().map{
+            postDao.insert(posts.toEntity().map {
                 it.copy(hidden = true)
             })
             emit(posts.size)
@@ -73,15 +82,42 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
 //            postDao.unrepostById(id)
 //        }
     }
-    override suspend fun showAll(){
+
+    override suspend fun showAll() {
         postDao.showAll()
     }
 
     override suspend fun save(postS: Post) {
-        val response = PostsApi.retrofitService.save(postS)
-        if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
-        val body = response.body() ?: throw RuntimeException("Body is null")
-        postDao.insert(PostEntity.fromDto(body))
+        try {
+            val response = PostsApi.retrofitService.save(postS)
+            if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
+            val body = response.body() ?: throw RuntimeException("Body is null")
+            postDao.insert(PostEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        }
+    }
+
+
+    override suspend fun saveWithAttachment(postS: Post, photoModel: PhotoModel) {
+        try {
+            val media = upload(photoModel)
+            val response = PostsApi.retrofitService.save(postS.copy(
+                attachment = Attachment(media.id,"",  AttachmentType.IMAGE)
+            ))
+            if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
+            val body = response.body() ?: throw RuntimeException("Body is null")
+            postDao.insert(PostEntity.fromDto(body))
+        } catch (e: IOException) {
+            throw NetworkError
+        }
+    }
+
+    private suspend fun upload(photo: PhotoModel): Media {
+        val response = PostsApi.mediaRetrofitService.uploadPhoto(
+            MultipartBody.Part.createFormData("file", photo.file.name, photo.file.asRequestBody())
+        )
+        return response.body() ?: throw  RuntimeException("Body is null")
     }
 
     override suspend fun removeById(id: Long) {

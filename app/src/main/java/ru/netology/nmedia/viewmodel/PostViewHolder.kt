@@ -52,7 +52,7 @@ class PostViewHolder(
             content.text = post.content
             likes.isChecked = post.likedByMe
             likes.text = converter(post.likes)
-            val attachmentUrl = "http://10.0.2.2:9999/images/${post.attachment?.url}"
+            val attachmentUrl = "http://10.0.2.2:9999/media/${post.attachment?.url}"
             if (post.attachment != null){
                 videoGroup.visibility = View.VISIBLE
                 Glide.with(attachmentImage)

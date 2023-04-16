@@ -10,6 +10,7 @@ import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModelState
 import ru.netology.nmedia.model.FeedModel
+import ru.netology.nmedia.model.PhotoModel
 import ru.netology.nmedia.repository.*
 import util.SingleLiveEvent
 
@@ -28,13 +29,18 @@ private val empty = Post(
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(application).postDao())
-    val data: LiveData<FeedModel> = repository.data.map(::FeedModel).catch { e -> e.printStackTrace() }.asLiveData(Dispatchers.Default)
+    val data: LiveData<FeedModel> =
+        repository.data.map(::FeedModel).catch { e -> e.printStackTrace() }
+            .asLiveData(Dispatchers.Default)
     val newerCount: LiveData<Int> = data.switchMap {
-        repository.getNewer(it.posts.firstOrNull()?.id?:0L).asLiveData(Dispatchers.Default)
+        repository.getNewer(it.posts.firstOrNull()?.id ?: 0L).asLiveData(Dispatchers.Default)
     }
     private val _state = MutableLiveData(FeedModelState())
     val state: LiveData<FeedModelState>
         get() = _state
+    private val _photoState = MutableLiveData<PhotoModel?>()
+    val photoState: LiveData<PhotoModel?>
+        get() = _photoState
 
     val edited = MutableLiveData(empty)
 
@@ -57,7 +63,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun likeById(id: Long) = viewModelScope.launch {
-         repository.likeById(id)
+        repository.likeById(id)
     }
 
     fun showAll() = viewModelScope.launch {
@@ -65,7 +71,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun unlikeById(id: Long) = viewModelScope.launch {
-       repository.unlikeById(id)
+        repository.unlikeById(id)
     }
 
     fun times() = repository.times()
@@ -78,11 +84,13 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun save() {
-        edited.value?.let {
+        edited.value?.let {post ->
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
-                    repository.save(it)
+                    photoState.value?.let {
+                        repository.saveWithAttachment(post, it)
+                    } ?: repository.save(post)
                     _state.value = FeedModelState()
                 } catch (e: Exception) {
                     _state.value = FeedModelState(error = true)
@@ -102,6 +110,10 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
             return
         }
         edited.value = edited.value?.copy(content = text)
+    }
+
+    fun changePhoto(photoModel: PhotoModel?) {
+        _photoState.value = photoModel
     }
 
 

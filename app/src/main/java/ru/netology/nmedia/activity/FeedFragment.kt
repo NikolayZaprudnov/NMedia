@@ -79,6 +79,10 @@ class FeedFragment : Fragment() {
             }
 
             override fun onPlay(post: Post) {
+                findNavController().navigate(R.id.action_feedFragment_to_imageFragment,
+                Bundle().apply {
+                    textArg = post.attachment?.url
+                })
 //                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
 //                startActivity(startVideo)
             }
@@ -112,6 +116,7 @@ class FeedFragment : Fragment() {
             viewModel.loadPosts()
             binding.refresh.isRefreshing = false
         }
+
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {
