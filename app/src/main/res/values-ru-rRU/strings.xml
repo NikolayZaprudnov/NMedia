@@ -21,4 +21,13 @@
     <string name="retry_loading">Повторить</string>
     <string name="error_loading">Пожалуйста, попробуйте позже</string>
     <string name="add_post" />
+    <string name="sign_out">Выйти</string>
+    <string name="sign_in">Войти</string>
+    <string name="sign_up">Зарегистрироваться</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="name">Имя Пользователя</string>
+    <string name="repeat_password">Повторите Пароль</string>
+    <string name="registration">Зарегистрироваться</string>
+    <string name="fields_do_not_match">Не совпадает поле "Пароль" и "Повторите пароль"</string>
 </resources>

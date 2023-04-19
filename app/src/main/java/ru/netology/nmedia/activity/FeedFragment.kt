@@ -3,12 +3,11 @@ package ru.netology.nmedia.activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.*
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.viewmodel.PostViewModel
-import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuProvider
 import androidx.core.view.get
 import androidx.core.view.isVisible
 import androidx.core.view.size
@@ -19,12 +18,17 @@ import com.google.android.material.snackbar.Snackbar
 import ru.netology.nmedia.R
 import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.databinding.FragmentFeedBinding
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.viewmodel.AuthViewModel
 
 
 class FeedFragment : Fragment() {
     private val viewModel: PostViewModel by viewModels(
+        ownerProducer = ::requireParentFragment
+    )
+    private val authViewModel: AuthViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
 
@@ -80,9 +84,9 @@ class FeedFragment : Fragment() {
 
             override fun onPlay(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_imageFragment,
-                Bundle().apply {
-                    textArg = post.attachment?.url
-                })
+                    Bundle().apply {
+                        textArg = post.attachment?.url
+                    })
 //                val startVideo = Intent(Intent.ACTION_VIEW, Uri.parse(post.video))
 //                startActivity(startVideo)
             }
@@ -106,7 +110,7 @@ class FeedFragment : Fragment() {
         }
         binding.freshPosts.setOnClickListener {
             viewModel.showAll()
-            var position = ( binding.list.scrollState)
+            var position = (binding.list.scrollState)
             binding.list.smoothScrollToPosition(position)
             binding.freshPosts.isVisible = false
         }
@@ -138,6 +142,36 @@ class FeedFragment : Fragment() {
                 textArg = draftText
             }
         }
+
+        authViewModel.state.observe(viewLifecycleOwner){ authState ->
+
+        var menuProvider: MenuProvider? = null
+        requireActivity().addMenuProvider(object : MenuProvider{
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuProvider?.let { requireActivity().removeMenuProvider(it) }
+                menuInflater.inflate(R.menu.main_menu, menu)
+                menu.setGroupVisible(R.id.authorized, authViewModel.authorized)
+                menu.setGroupVisible(R.id.unAuthorized, !authViewModel.authorized)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when(menuItem.itemId){
+                    R.id.signOut -> {
+                        AppAuth.getInstance().clear()
+                        true
+                    }
+                    R.id.signIn -> {
+                        findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
+                        true
+                    }
+                    R.id.signUp -> {
+                        findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
+                        true
+                    } else -> false
+                }
+            }
+
+        }.apply { menuProvider = this })}
 
         return binding.root
     }

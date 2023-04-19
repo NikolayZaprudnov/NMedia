@@ -1,20 +1,9 @@
 package ru.netology.nmedia.dto
 
 import ru.netology.nmedia.enumeration.AttachmentType
-import java.net.URL
 
-//data class Post(
-//    val id: Long,
-//    val authorName: String,
-//    val authorAvatar: String,
-//    val time: String,
-//    val content: String,
-//    val likedByMe: Boolean,
-//    var likesAmount: Int,
-//    var repostAmount: Int,
-//    val video: String?,
-//    var hidden: Boolean = false
-//)
+
+
 data class Post(
     val id: Long,
     val author: String,
@@ -24,7 +13,10 @@ data class Post(
     val likedByMe: Boolean,
     val likes: Int = 0,
     var attachment: Attachment? = null,
-    var hidden: Boolean = false
+    var hidden: Boolean = false,
+    val authorId: Long,
+    val ownedByMe: Boolean = false,
+
 )
 
 data class Attachment(

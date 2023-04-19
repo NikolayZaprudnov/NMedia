@@ -4,10 +4,15 @@ package ru.netology.nmedia.repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
+import retrofit2.http.Field
 import ru.netology.nmedia.api.PostsApi
 import ru.netology.nmedia.api.PostsApiService
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.entity.*
 import ru.netology.nmedia.entity.toDto
@@ -15,6 +20,7 @@ import ru.netology.nmedia.entity.toEntity
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
+import ru.netology.nmedia.dto.User
 import ru.netology.nmedia.entity.PostEntity
 import ru.netology.nmedia.enumeration.AttachmentType
 import ru.netology.nmedia.error.ApiError
@@ -111,6 +117,38 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         } catch (e: IOException) {
             throw NetworkError
         }
+    }
+    override suspend fun updateUser(login: String, pass:String){
+        val response = PostsApi.authRetrofitServise.updateUser(login, pass)
+        if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
+        val userId = response.body()!!.id
+        val userToken = response.body()?.token
+        AppAuth.getInstance().setAuth(userId,userToken)
+    }
+
+    override suspend fun registerUser(login: String, pass: String, name: String) {
+        val response = PostsApi.authRetrofitServise.registerUser(login, pass, name)
+        if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
+        val userId = response.body()!!.id
+        val userToken = response.body()?.token
+        AppAuth.getInstance().setAuth(userId,userToken)
+    }
+
+    override suspend fun registerWithPhoto(
+        login: String,
+        pass: String,
+        name: String,
+        avatar: PhotoModel,
+    ) {
+        val response = PostsApi.authRetrofitServise.registerWithPhoto(
+            login.toRequestBody("login".toMediaType()),
+            pass.toRequestBody("pass".toMediaType()),
+            name.toRequestBody("name".toMediaType()),
+            MultipartBody.Part.createFormData("file", avatar.file.name, avatar.file.asRequestBody()),
+        )
+        val userId = response.body()!!.id
+        val userToken = response.body()?.token
+        AppAuth.getInstance().setAuth(userId,userToken)
     }
 
     private suspend fun upload(photo: PhotoModel): Media {

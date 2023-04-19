@@ -2,6 +2,7 @@ package ru.netology.nmedia.api
 
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
+import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -9,8 +10,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import retrofit2.http.*
 import ru.netology.nmedia.BuildConfig
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.User
 
 private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
 private val logging = HttpLoggingInterceptor().apply {
@@ -20,6 +23,15 @@ private val logging = HttpLoggingInterceptor().apply {
 }
 private val postOkhttp = OkHttpClient.Builder()
     .addInterceptor(logging)
+    .addInterceptor { chain ->
+        AppAuth.getInstance().authStateFlow.value.token?.let { token ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", token)
+                .build()
+            return@addInterceptor chain.proceed(newRequest)
+        }
+        chain.proceed(chain.request())
+    }
     .build()
 private val mediaOkhttp = OkHttpClient.Builder()
     .build()
@@ -57,6 +69,22 @@ interface MediaApiService{
     @POST("media")
     suspend fun uploadPhoto(@Part file: MultipartBody.Part): Response<Media>
 }
+interface AuthApiService{
+    @FormUrlEncoded
+    @POST("users/authentication")
+    suspend fun updateUser(@Field("login") login: String, @Field("pass") pass: String): Response<User>
+    @FormUrlEncoded
+    @POST("users/registration")
+    suspend fun registerUser(@Field("login") login: String, @Field("pass") pass: String, @Field("name") name: String): Response<User>
+    @Multipart
+    @POST("users/registration")
+    suspend fun registerWithPhoto(
+        @Part("login") login: RequestBody,
+        @Part("pass") pass: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part media: MultipartBody.Part,
+    ): Response<User>
+}
 
 object PostsApi {
 
@@ -70,6 +98,11 @@ object PostsApi {
         .baseUrl(BASE_URL)
         .client(mediaOkhttp)
         .build()
+    private val authRetrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BASE_URL)
+        .client(mediaOkhttp)
+        .build()
 
     val retrofitService: PostsApiService by lazy {
         postRetrofit.create()
@@ -77,4 +110,10 @@ object PostsApi {
     val mediaRetrofitService: MediaApiService by lazy {
         mediaRetrofit.create()
     }
+    val authRetrofitServise: AuthApiService by lazy{
+        authRetrofit.create()
+    }
 }
+
+
+

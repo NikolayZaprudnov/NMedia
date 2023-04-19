@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.model.FeedModelState
@@ -23,15 +25,24 @@ private val empty = Post(
     false,
     0,
     null,
-    false
+    false,
+    authorId = 0L
 )
 
 class PostViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: PostRepository =
         PostRepositoryImpl(AppDb.getInstance(application).postDao())
-    val data: LiveData<FeedModel> =
-        repository.data.map(::FeedModel).catch { e -> e.printStackTrace() }
-            .asLiveData(Dispatchers.Default)
+    val data: LiveData<FeedModel> = AppAuth.getInstance()
+        .authStateFlow
+        .flatMapLatest { (myId, _) ->
+            repository.data
+                .map { posts ->
+                    FeedModel(
+                        posts.map { it.copy(ownedByMe = it.authorId == myId) },
+                        posts.isEmpty()
+                    )
+                }
+        }.asLiveData(Dispatchers.Default)
     val newerCount: LiveData<Int> = data.switchMap {
         repository.getNewer(it.posts.firstOrNull()?.id ?: 0L).asLiveData(Dispatchers.Default)
     }
@@ -84,7 +95,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun save() {
-        edited.value?.let {post ->
+        edited.value?.let { post ->
             _postCreated.value = Unit
             viewModelScope.launch {
                 try {
@@ -97,7 +108,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
                 }
             }
         }
-        edited.value = empty
+        edited.value = empty.copy()
     }
 
     fun edit(post: Post) {
@@ -115,6 +126,7 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun changePhoto(photoModel: PhotoModel?) {
         _photoState.value = photoModel
     }
+
 
 
 }

@@ -32,5 +32,14 @@
     <string name="empty_posts">No posts.  \n New posts will be displayed here/</string>
     <string name="retry_loading">Retry</string>
     <string name="error_loading">Please, try again later</string>
+    <string name="sign_out">sign out</string>
+    <string name="sign_in">sign in</string>
+    <string name="sign_up">sign up</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="registration">Registration</string>
+    <string name="fields_do_not_match">"Password" and "Repeat password" fields do not match</string>
     />
 </resources>
