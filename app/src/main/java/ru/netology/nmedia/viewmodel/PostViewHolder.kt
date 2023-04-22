@@ -23,6 +23,7 @@ import ru.netology.nmedia.viewmodel.PostViewModel
 import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
@@ -33,9 +34,10 @@ import ru.netology.nmedia.activity.FeedFragment
 import ru.netology.nmedia.activity.OnePostFragment
 import ru.netology.nmedia.enumeration.AttachmentType
 import ru.netology.nmedia.util.AndroidUtils
+
 class PostViewHolder(
     private val binding: PostCardBinding,
-   private val onInteractionListener: OnInteractionListener
+    private val onInteractionListener: OnInteractionListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -53,7 +55,7 @@ class PostViewHolder(
             likes.isChecked = post.likedByMe
             likes.text = converter(post.likes)
             val attachmentUrl = "http://10.0.2.2:9999/media/${post.attachment?.url}"
-            if (post.attachment != null){
+            if (post.attachment != null) {
                 videoGroup.visibility = View.VISIBLE
                 Glide.with(attachmentImage)
                     .load(attachmentUrl)
@@ -68,11 +70,11 @@ class PostViewHolder(
 //            reposts.text = converter(post.repostAmount)
 //            url.text = post.video
 
-            root.setOnClickListener{
-               onInteractionListener.onOpen(post)
+            root.setOnClickListener {
+                onInteractionListener.onOpen(post)
             }
             likes.setOnClickListener {
-              onInteractionListener.onLike(post)
+                onInteractionListener.onLike(post)
             }
 //            root.setOnClickListener {
 //                onInteractionListener.onRoot(post)
@@ -89,17 +91,17 @@ class PostViewHolder(
 //                onInteractionListener.onPlay(post)
 //
 //            }
-
+            menu.isVisible = post.ownedByMe
             menu.setOnClickListener {
-                PopupMenu(it.context , it).apply{
+                PopupMenu(it.context, it).apply {
                     inflate(R.menu.option_post)
                     setOnMenuItemClickListener { item ->
-                        when(item.itemId){
+                        when (item.itemId) {
                             R.id.remove -> {
                                 onInteractionListener.onRemove(post)
                                 true
                             }
-                            R.id.edit ->{
+                            R.id.edit -> {
 //                                findNavController(FeedFragment).navigate(R.id.action_feedFragment_to_editPostFragment)
                                 onInteractionListener.onEdit(post)
                                 true
@@ -114,10 +116,10 @@ class PostViewHolder(
 
 
     fun converter(amount: Int): String {
-        var convert =  when(amount){
+        var convert = when (amount) {
             in 0..999 -> amount.toString()
-            in 1000..999999 -> ((amount/1000).toString() + "k")
-            else -> ((amount/1000000).toString() + "M")
+            in 1000..999999 -> ((amount / 1000).toString() + "k")
+            else -> ((amount / 1000000).toString() + "M")
         }
         return convert
     }

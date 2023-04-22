@@ -1,11 +1,12 @@
 package ru.netology.nmedia.viewmodel
 
 import android.app.Application
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.db.AppDb
-import ru.netology.nmedia.model.FeedModelState
 import ru.netology.nmedia.model.PhotoModel
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryImpl
@@ -33,5 +34,10 @@ class AuthViewModel( application: Application) : AndroidViewModel(application) {
     fun registrationUserWithPhoto(login: String, pass:String, name: String, avatar: PhotoModel)= viewModelScope.launch {
         repository.registerWithPhoto(login, pass, name, avatar)
     }
+//    fun checkRegistration{
+//        if(authorized == false){
+//            Toast.makeText(requireContext(), "Необходимо пройти регистрацию/авторизацию", Toast.LENGTH_SHORT)
+//        }
+//    }
 
 }

@@ -1,16 +1,14 @@
 package ru.netology.nmedia.activity
 
+import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.viewmodel.PostViewModel
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuProvider
-import androidx.core.view.get
 import androidx.core.view.isVisible
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +18,7 @@ import ru.netology.nmedia.activity.NewPostFragment.Companion.textArg
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.databinding.FragmentFeedBinding
+import ru.netology.nmedia.dialog.CheckRegistrationDialog
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.viewmodel.AuthViewModel
 
@@ -42,20 +41,28 @@ class FeedFragment : Fragment() {
             container,
             false
         )
+        val dialog = CheckRegistrationDialog()
 
+        val manager = parentFragmentManager
 
         val adapter = PostsAdapter(object : OnInteractionListener {
 
 
             override fun onLike(post: Post) {
+                if(!authViewModel.authorized){
+                    dialog.show(manager,"")
+                } else{
                 if (post.likedByMe == false) {
                     viewModel.likeById(post.id)
                 } else {
                     viewModel.unlikeById(post.id)
                 }
-            }
+            }}
 
             override fun onRepost(post: Post) {
+                if(!authViewModel.authorized){
+                    dialog.show(manager,"")
+                } else{
                 viewModel.repostById(post.id)
                 val intent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -64,7 +71,7 @@ class FeedFragment : Fragment() {
                 }
                 val shareIntent = Intent.createChooser(intent, "Repost post")
                 startActivity(shareIntent)
-            }
+            }}
 
             override fun onOpen(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
@@ -143,37 +150,47 @@ class FeedFragment : Fragment() {
             }
         }
 
-        authViewModel.state.observe(viewLifecycleOwner){ authState ->
+        authViewModel.state.observe(viewLifecycleOwner) { authState ->
 
-        var menuProvider: MenuProvider? = null
-        requireActivity().addMenuProvider(object : MenuProvider{
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+            var menuProvider: MenuProvider? = null
+            authViewModel.state.observe(viewLifecycleOwner) { authState ->
                 menuProvider?.let { requireActivity().removeMenuProvider(it) }
-                menuInflater.inflate(R.menu.main_menu, menu)
-                menu.setGroupVisible(R.id.authorized, authViewModel.authorized)
-                menu.setGroupVisible(R.id.unAuthorized, !authViewModel.authorized)
+                requireActivity().addMenuProvider(
+                    object : MenuProvider {
+                        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                            menuInflater.inflate(R.menu.main_menu, menu)
+                            menu.setGroupVisible(R.id.authorized, authViewModel.authorized)
+                            menu.setGroupVisible(R.id.unAuthorized, !authViewModel.authorized)
+                        }
+
+                        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                            return when (menuItem.itemId) {
+                                R.id.signOut -> {
+                                    AppAuth.getInstance().clear()
+                                    true
+                                }
+
+                                R.id.signIn -> {
+                                    findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
+                                    true
+                                }
+
+                                R.id.signUp -> {
+                                    findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
+                                    true
+                                }
+
+                                else -> false
+                            }
+                        }
+
+                    }.apply { menuProvider = this },
+                    viewLifecycleOwner,
+                )
             }
 
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                return when(menuItem.itemId){
-                    R.id.signOut -> {
-                        AppAuth.getInstance().clear()
-                        true
-                    }
-                    R.id.signIn -> {
-                        findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
-                        true
-                    }
-                    R.id.signUp -> {
-                        findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
-                        true
-                    } else -> false
-                }
-            }
 
-        }.apply { menuProvider = this })}
-
-        return binding.root
+        }; return binding.root
     }
 }
 

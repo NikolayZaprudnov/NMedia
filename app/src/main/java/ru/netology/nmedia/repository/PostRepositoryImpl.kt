@@ -141,9 +141,9 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
         avatar: PhotoModel,
     ) {
         val response = PostsApi.authRetrofitServise.registerWithPhoto(
-            login.toRequestBody("login".toMediaType()),
-            pass.toRequestBody("pass".toMediaType()),
-            name.toRequestBody("name".toMediaType()),
+            login.toRequestBody(),
+            pass.toRequestBody(),
+            name.toRequestBody(),
             MultipartBody.Part.createFormData("file", avatar.file.name, avatar.file.asRequestBody()),
         )
         val userId = response.body()!!.id
@@ -164,5 +164,6 @@ class PostRepositoryImpl(private val postDao: PostDao) : PostRepository {
             postDao.removeById(id)
         }; throw RuntimeException("API SERVICE ERROR")
     }
+
 }
 
