@@ -77,7 +77,7 @@ class RegistrationFragment : Fragment() {
         binding.buttonRegistration.setOnClickListener {
             val name = binding.name.text.toString()
             val pass = binding.password.text.toString()
-            val repeatPass = binding.repeatPassword.text.toString()
+            val repeatPass = binding.textRepeatPassword.editText?.text.toString()
             val login = binding.login.text.toString()
             if (pass == repeatPass && pass != "") {
                 if (!availabilityPhoto) {
@@ -91,7 +91,7 @@ class RegistrationFragment : Fragment() {
                     "\"Password\" and \"Repeat password\" fields do not match",
                     Toast.LENGTH_SHORT).show()
                 binding.password.setBackgroundColor(Color.RED)
-                binding.repeatPassword.setBackgroundColor(Color.RED)
+                binding.textRepeatPassword.setBackgroundColor(Color.RED)
             }
         }
 

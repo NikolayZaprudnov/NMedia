@@ -10,6 +10,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.google.gson.Gson
 import ru.netology.nmedia.R
+import ru.netology.nmedia.auth.AppAuth
 import kotlin.random.Random
 
 
@@ -34,32 +35,38 @@ class FCMService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
-        message.data[action]?.let {
-            if (it == "LIKE" || it == "POST") {
-                when (Action.valueOf(it)) {
-                    Action.LIKE -> handleLike(gson.fromJson(message.data[content],
-                        Like::class.java))
-                    Action.POST -> handlePost(gson.fromJson(message.data[content],
-                        Post::class.java))
-                }
-            } else {  handleExeption(gson.fromJson(message.data[content], Error::class.java)) }
-        }
+        val userId = AppAuth.getInstance().authStateFlow.value.id
+        val bodyNotification = gson.fromJson(message.data[content], UserNotification::class.java)
+        val recipientId = bodyNotification.recipientId
+        if (recipientId == userId || recipientId == null) {
+            showNotification(bodyNotification)
+        } else if (recipientId == 0L && recipientId != userId) {
+            AppAuth.getInstance().sendPushToken()
+        } 
+
+//        message.data[action]?.let {
+//            if (it == "LIKE" || it == "POST") {
+//                when (Action.valueOf(it)) {
+//                    Action.LIKE -> handleLike(gson.fromJson(message.data[content],
+//                        Like::class.java))
+//                    Action.POST -> handlePost(gson.fromJson(message.data[content],
+//                        Post::class.java))
+//                }
+//            } else {  handleExeption(gson.fromJson(message.data[content], Error::class.java)) }
+//        }
     }
 
 
     override fun onNewToken(token: String) {
+        AppAuth.getInstance().sendPushToken(token)
         println(token)
     }
 
-    private fun handleLike(content: Like) {
+    private fun showNotification(content: UserNotification) {
         val notification = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_notification)
             .setContentTitle(
-                getString(
-                    R.string.notification_user_liked,
-                    content.userName,
-                    content.postAuthor,
-                )
+                content.content
             )
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
@@ -68,36 +75,53 @@ class FCMService : FirebaseMessagingService() {
             .notify(Random.nextInt(100_000), notification)
     }
 
-    private fun handleExeption(content: Error) {
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(
-                getString(R.string.notification_error)
-            )
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-
-        NotificationManagerCompat.from(this)
-            .notify(Random.nextInt(100_000), notification)
-    }
-
-    private fun handlePost(content: Post) {
-        val notification = NotificationCompat.Builder(this, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(
-                getString(
-                    R.string.notification_new_post,
-                    content.postAuthor,
-                )
-            )
-            .setStyle(NotificationCompat.BigTextStyle()
-                .bigText(content.postContent))
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .build()
-
-        NotificationManagerCompat.from(this)
-            .notify(Random.nextInt(100_000), notification)
-    }
+//    private fun handleLike(content: Like) {
+//        val notification = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.drawable.ic_notification)
+//            .setContentTitle(
+//                getString(
+//                    R.string.notification_user_liked,
+//                    content.userName,
+//                    content.postAuthor,
+//                )
+//            )
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .build()
+//
+//        NotificationManagerCompat.from(this)
+//            .notify(Random.nextInt(100_000), notification)
+//    }
+//
+//    private fun handleExeption(content: Error) {
+//        val notification = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.drawable.ic_notification)
+//            .setContentTitle(
+//                getString(R.string.notification_error)
+//            )
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .build()
+//
+//        NotificationManagerCompat.from(this)
+//            .notify(Random.nextInt(100_000), notification)
+//    }
+//
+//    private fun handlePost(content: Post) {
+//        val notification = NotificationCompat.Builder(this, channelId)
+//            .setSmallIcon(R.drawable.ic_notification)
+//            .setContentTitle(
+//                getString(
+//                    R.string.notification_new_post,
+//                    content.postAuthor,
+//                )
+//            )
+//            .setStyle(NotificationCompat.BigTextStyle()
+//                .bigText(content.postContent))
+//            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+//            .build()
+//
+//        NotificationManagerCompat.from(this)
+//            .notify(Random.nextInt(100_000), notification)
+//    }
 }
 
 enum class Action {
@@ -117,6 +141,11 @@ data class Post(
     val postId: Long,
     val postAuthor: String,
     val postContent: String,
+)
+
+data class UserNotification(
+    val recipientId: Long,
+    val content: String,
 )
 
 

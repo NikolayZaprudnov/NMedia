@@ -49,29 +49,31 @@ class FeedFragment : Fragment() {
 
 
             override fun onLike(post: Post) {
-                if(!authViewModel.authorized){
-                    dialog.show(manager,"")
-                } else{
-                if (post.likedByMe == false) {
-                    viewModel.likeById(post.id)
+                if (!authViewModel.authorized) {
+                    dialog.show(manager, "")
                 } else {
-                    viewModel.unlikeById(post.id)
+                    if (post.likedByMe == false) {
+                        viewModel.likeById(post.id)
+                    } else {
+                        viewModel.unlikeById(post.id)
+                    }
                 }
-            }}
+            }
 
             override fun onRepost(post: Post) {
-                if(!authViewModel.authorized){
-                    dialog.show(manager,"")
-                } else{
-                viewModel.repostById(post.id)
-                val intent = Intent().apply {
-                    action = Intent.ACTION_SEND
-                    putExtra(Intent.EXTRA_TEXT, post.content)
-                    type = "text/plain"
+                if (!authViewModel.authorized) {
+                    dialog.show(manager, "")
+                } else {
+                    viewModel.repostById(post.id)
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                        type = "text/plain"
+                    }
+                    val shareIntent = Intent.createChooser(intent, "Repost post")
+                    startActivity(shareIntent)
                 }
-                val shareIntent = Intent.createChooser(intent, "Repost post")
-                startActivity(shareIntent)
-            }}
+            }
 
             override fun onOpen(post: Post) {
                 findNavController().navigate(R.id.action_feedFragment_to_onePostFragment,
@@ -150,44 +152,42 @@ class FeedFragment : Fragment() {
             }
         }
 
+
+        var menuProvider: MenuProvider? = null
         authViewModel.state.observe(viewLifecycleOwner) { authState ->
+            menuProvider?.let { requireActivity().removeMenuProvider(it) }
+            requireActivity().addMenuProvider(
+                object : MenuProvider {
+                    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                        menuInflater.inflate(R.menu.main_menu, menu)
+                        menu.setGroupVisible(R.id.authorized, authViewModel.authorized)
+                        menu.setGroupVisible(R.id.unAuthorized, !authViewModel.authorized)
+                    }
 
-            var menuProvider: MenuProvider? = null
-            authViewModel.state.observe(viewLifecycleOwner) { authState ->
-                menuProvider?.let { requireActivity().removeMenuProvider(it) }
-                requireActivity().addMenuProvider(
-                    object : MenuProvider {
-                        override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                            menuInflater.inflate(R.menu.main_menu, menu)
-                            menu.setGroupVisible(R.id.authorized, authViewModel.authorized)
-                            menu.setGroupVisible(R.id.unAuthorized, !authViewModel.authorized)
-                        }
-
-                        override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                            return when (menuItem.itemId) {
-                                R.id.signOut -> {
-                                    AppAuth.getInstance().clear()
-                                    true
-                                }
-
-                                R.id.signIn -> {
-                                    findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
-                                    true
-                                }
-
-                                R.id.signUp -> {
-                                    findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
-                                    true
-                                }
-
-                                else -> false
+                    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                        return when (menuItem.itemId) {
+                            R.id.signOut -> {
+                                AppAuth.getInstance().clear()
+                                true
                             }
-                        }
 
-                    }.apply { menuProvider = this },
-                    viewLifecycleOwner,
-                )
-            }
+                            R.id.signIn -> {
+                                findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
+                                true
+                            }
+
+                            R.id.signUp -> {
+                                findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
+                                true
+                            }
+
+                            else -> false
+                        }
+                    }
+
+                }.apply { menuProvider = this },
+                viewLifecycleOwner,
+            )
 
 
         }; return binding.root

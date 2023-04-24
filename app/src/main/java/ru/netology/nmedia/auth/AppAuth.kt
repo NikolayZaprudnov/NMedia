@@ -2,8 +2,16 @@ package ru.netology.nmedia.auth
 
 import android.content.Context
 import androidx.core.content.edit
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import ru.netology.nmedia.api.PostsApi
+import ru.netology.nmedia.dto.PushToken
 
 class AppAuth private constructor(context: Context) {
     private val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
@@ -15,29 +23,45 @@ class AppAuth private constructor(context: Context) {
         var token: String? = null
         token = prefs.getString(TOKEN, null)
         id = prefs.getLong(ID, 0L)
-        if (id == 0L || token == null){
+        if (id == 0L || token == null) {
             _authStateFlow.value = AuthState()
-            prefs.edit{
+            prefs.edit {
                 clear()
             }
-        }else{
+        } else {
             _authStateFlow.value = AuthState(id = id, token = token)
         }
+        sendPushToken()
     }
 
     @Synchronized
-    fun clear(){
+    fun clear() {
         _authStateFlow.value = AuthState()
-        prefs.edit{
+        prefs.edit {
             clear()
         }
+        sendPushToken()
     }
+
     @Synchronized
-    fun setAuth(id: Long, token: String?){
+    fun setAuth(id: Long, token: String?) {
         _authStateFlow.value = AuthState(id = id, token = token)
         prefs.edit {
-            putLong(ID,  id)
+            putLong(ID, id)
             putString(TOKEN, token)
+        }
+        sendPushToken()
+    }
+
+    fun sendPushToken(token: String? = null) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val pushToken = PushToken(token ?: Firebase.messaging.token.await())
+                PostsApi.retrofitService.saveToken(pushToken)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
         }
     }
 
