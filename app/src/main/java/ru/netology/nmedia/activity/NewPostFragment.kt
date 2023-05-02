@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.core.view.MenuProvider
@@ -15,20 +14,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.model.PhotoModel
 import ru.netology.nmedia.viewmodel.PostViewModel
 import util.StringArg
 
+@AndroidEntryPoint
 class NewPostFragment : Fragment() {
+
+
     companion object {
         var Bundle.textArg: String? by StringArg
     }
 
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment)
     private val photoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
@@ -90,8 +91,8 @@ class NewPostFragment : Fragment() {
 
 
         }, viewLifecycleOwner)
-        viewModel.photoState.observe(viewLifecycleOwner){photoModel ->
-            if (photoModel == null){
+        viewModel.photoState.observe(viewLifecycleOwner) { photoModel ->
+            if (photoModel == null) {
                 binding.photoContainer.isVisible = false
                 return@observe
             }
@@ -106,7 +107,7 @@ class NewPostFragment : Fragment() {
                 .compress(2048)
                 .createIntent(photoLauncher::launch)
         }
-        binding.remotePhoto.setOnClickListener{
+        binding.remotePhoto.setOnClickListener {
             viewModel.changePhoto(null)
         }
         binding.pickPhoto.setOnClickListener {

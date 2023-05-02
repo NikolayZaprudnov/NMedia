@@ -1,41 +1,13 @@
 package ru.netology.nmedia.api
 
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import retrofit2.http.*
-import ru.netology.nmedia.BuildConfig
-import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.dto.PushToken
 import ru.netology.nmedia.dto.User
-
-private const val BASE_URL = "${BuildConfig.BASE_URL}/api/slow/"
-private val logging = HttpLoggingInterceptor().apply {
-    if (BuildConfig.DEBUG){
-        level = HttpLoggingInterceptor.Level.BODY
-    }
-}
-private val postOkhttp = OkHttpClient.Builder()
-    .addInterceptor(logging)
-    .addInterceptor { chain ->
-        AppAuth.getInstance().authStateFlow.value.token?.let { token ->
-            val newRequest = chain.request().newBuilder()
-                .addHeader("Authorization", token)
-                .build()
-            return@addInterceptor chain.proceed(newRequest)
-        }
-        chain.proceed(chain.request())
-    }
-    .build()
-private val mediaOkhttp = OkHttpClient.Builder()
-    .build()
 
 
 interface PostsApiService {
@@ -90,34 +62,6 @@ interface AuthApiService{
     ): Response<User>
 }
 
-object PostsApi {
-
-    private val postRetrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .client(postOkhttp)
-        .build()
-    private val mediaRetrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .client(mediaOkhttp)
-        .build()
-    private val authRetrofit = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(BASE_URL)
-        .client(mediaOkhttp)
-        .build()
-
-    val retrofitService: PostsApiService by lazy {
-        postRetrofit.create()
-    }
-    val mediaRetrofitService: MediaApiService by lazy {
-        mediaRetrofit.create()
-    }
-    val authRetrofitServise: AuthApiService by lazy{
-        authRetrofit.create()
-    }
-}
 
 
 

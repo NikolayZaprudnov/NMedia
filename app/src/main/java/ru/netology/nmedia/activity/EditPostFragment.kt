@@ -7,19 +7,20 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.FragmentNewPostBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 import util.StringArg
 
+
+@AndroidEntryPoint
 class EditPostFragment : Fragment() {
     companion object {
         var Bundle.textArg: String? by StringArg
     }
 
-    private val viewModel: PostViewModel by viewModels(
-        ownerProducer = ::requireParentFragment
-    )
+    private val viewModel: PostViewModel by viewModels(ownerProducer = ::requireParentFragment, )
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +46,7 @@ class EditPostFragment : Fragment() {
                         viewModel.save()
                         true
                     }
-                    R.id.not ->{
+                    R.id.not -> {
                         findNavController().navigateUp()
                     }
                     else -> false

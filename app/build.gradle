@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
+    id 'com.google.dagger.hilt.android'
 }
 
 android {
@@ -64,6 +65,7 @@ dependencies {
     def okhttplogging_version = "4.10.0"
     def coroutines_version = "1.6.4"
     def imagepicker_version = "2.1"
+    def hilt_version = "2.46"
 
     implementation platform('com.google.firebase:firebase-bom:31.1.1')
     implementation "androidx.core:core-ktx:$core_version"
@@ -90,10 +92,12 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "com.github.dhaval2404:imagepicker:$imagepicker_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$coroutines_version"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
 
 
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$ext_junit_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
     kapt "androidx.room:room-compiler:$room_ver"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
 }
