@@ -12,7 +12,6 @@ import ru.netology.nmedia.api.MediaApiService
 import ru.netology.nmedia.api.PostsApiService
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dao.PostDao
-import ru.netology.nmedia.di.DependecyContainer
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
@@ -32,7 +31,9 @@ class PostRepositoryImpl @Inject constructor(
     private val mediaApiService: MediaApiService
 ) : PostRepository {
 
-    private val dependecyContainer = DependecyContainer.getInstance()
+
+    @Inject
+    lateinit var appAuth: AppAuth
 
     override val data = postDao.getAll()
         .map(List<PostEntity>::toDto)
@@ -127,7 +128,7 @@ class PostRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
         val userId = response.body()!!.id
         val userToken = response.body()?.token
-        dependecyContainer.appAuth.setAuth(userId, userToken)
+        appAuth.setAuth(userId, userToken)
     }
 
     override suspend fun registerUser(login: String, pass: String, name: String) {
@@ -135,7 +136,7 @@ class PostRepositoryImpl @Inject constructor(
         if (!response.isSuccessful) throw RuntimeException("API SERVICE ERROR")
         val userId = response.body()!!.id
         val userToken = response.body()?.token
-        dependecyContainer.appAuth.setAuth(userId, userToken)
+        appAuth.setAuth(userId, userToken)
     }
 
     override suspend fun registerWithPhoto(
@@ -154,7 +155,7 @@ class PostRepositoryImpl @Inject constructor(
         )
         val userId = response.body()!!.id
         val userToken = response.body()?.token
-        dependecyContainer.appAuth.setAuth(userId, userToken)
+        appAuth.setAuth(userId, userToken)
     }
 
     private suspend fun upload(photo: PhotoModel): Media {

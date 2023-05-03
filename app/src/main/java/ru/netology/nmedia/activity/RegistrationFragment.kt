@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
@@ -21,7 +22,7 @@ import ru.netology.nmedia.viewmodel.AuthViewModel
 @AndroidEntryPoint
 class RegistrationFragment : Fragment() {
 
-    private val viewModel: AuthViewModel by viewModels(ownerProducer = ::requireParentFragment)
+    private val viewModel: AuthViewModel by activityViewModels()
     private val photoLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             when (it.resultCode) {
