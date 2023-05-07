@@ -47,9 +47,6 @@ class ApiModule {
         }
         .build()
 
-    @Provides
-    fun provideMediaOkHttp(): OkHttpClient = OkHttpClient.Builder()
-        .build()
 
 
     @Singleton
