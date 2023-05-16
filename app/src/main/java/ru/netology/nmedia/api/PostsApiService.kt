@@ -14,11 +14,20 @@ interface PostsApiService {
     @GET("posts")
     suspend fun getAll(): Response<List<Post>>
 
+    @GET("posts/latest")
+    suspend fun getLatest( @Query("count") count: Int): Response<List<Post>>
+
     @POST("posts")
     suspend fun save(@Body post: Post): Response<Post>
 
     @GET("posts/{postId}/newer")
     suspend fun getNewer(@Path("postId") id: Long): Response<List<Post>>
+
+    @GET("posts/{postId}/before")
+    suspend fun getBefore(@Path("postId") id: Long, @Query("count") count: Int): Response<List<Post>>
+
+    @GET("posts/{postId}/after")
+    suspend fun getAfter(@Path("postId") id: Long, @Query("count") count: Int): Response<List<Post>>
 
     @GET("posts/{postId}")
     suspend fun getPostById(@Path("postId") id: Long): Response<Post>

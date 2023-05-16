@@ -33,6 +33,7 @@ class SignInFragment : Fragment() {
             findNavController().navigateUp()
         }
 
+
         return binding.root
     }
 }

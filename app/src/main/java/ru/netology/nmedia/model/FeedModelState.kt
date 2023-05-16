@@ -1,5 +1,6 @@
 package ru.netology.nmedia.model
 
+import androidx.paging.PagingData
 import ru.netology.nmedia.dto.Post
 
 data class FeedModelState(
