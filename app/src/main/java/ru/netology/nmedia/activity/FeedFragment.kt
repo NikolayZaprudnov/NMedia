@@ -129,9 +129,9 @@ class FeedFragment : Fragment() {
             }
         }
 
-        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
-            binding.freshPosts.isVisible = state > 0
-        }
+//        viewModel.newerCount.observe(viewLifecycleOwner) { state ->
+//            binding.freshPosts.isVisible = state > 0
+//        }
         binding.freshPosts.setOnClickListener {
             viewModel.showAll()
             var position = (binding.list.scrollState)
@@ -171,6 +171,7 @@ class FeedFragment : Fragment() {
 
         var menuProvider: MenuProvider? = null
         authViewModel.state.observe(viewLifecycleOwner) { authState ->
+            if(!authState.token.isNullOrEmpty()){adapter.refresh()}
             menuProvider?.let { requireActivity().removeMenuProvider(it) }
             requireActivity().addMenuProvider(
                 object : MenuProvider {

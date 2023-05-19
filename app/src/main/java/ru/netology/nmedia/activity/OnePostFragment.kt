@@ -72,10 +72,10 @@ class OnePostFragment : Fragment(
         })
 
         binding.list.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { state ->
-//            posts.posts.filter { it.id == passedId }
-            adapter.submitList(state.posts.filter { it.id == passedId })
-        }
+//        viewModel.data.observe(viewLifecycleOwner) { state ->
+////            posts.posts.filter { it.id == passedId }
+//            adapter.submitList(state.posts.filter { it.id == passedId })
+//        }
 
         viewModel.edited.observe(viewLifecycleOwner) { post ->
             if (post.id == 0L) {

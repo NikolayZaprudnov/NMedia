@@ -48,9 +48,9 @@ class PostViewModel @Inject constructor(
         }.flowOn(Dispatchers.Default)
 
 
-    val newerCount: LiveData<Int> = data.switchMap {
-        repository.getNewer(it.posts.firstOrNull()?.id ?: 0L).asLiveData(Dispatchers.Default)
-    }
+//    val newerCount: LiveData<Int> = data.switchMap {
+//        repository.getNewer(it.posts.firstOrNull()?.id ?: 0L).asLiveData(Dispatchers.Default)
+//    }
     private val _state = MutableLiveData(FeedModelState())
     val state: LiveData<FeedModelState>
         get() = _state
