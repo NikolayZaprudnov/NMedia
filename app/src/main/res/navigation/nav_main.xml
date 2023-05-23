@@ -23,7 +23,7 @@
             app:enterAnim="@android:anim/fade_in"
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out"/>
+            app:popExitAnim="@android:anim/fade_out" />
         <action
             android:id="@+id/action_feedFragment_to_onePostFragment"
             app:destination="@id/onePostFragment" />
@@ -46,7 +46,7 @@
         android:id="@+id/editPostFragment"
         android:name="ru.netology.nmedia.activity.EditPostFragment"
         android:label="EditPostFragment"
-        tools:layout="@layout/fragment_new_post"/>
+        tools:layout="@layout/fragment_new_post" />
     <fragment
         android:id="@+id/onePostFragment"
         android:name="ru.netology.nmedia.activity.OnePostFragment"

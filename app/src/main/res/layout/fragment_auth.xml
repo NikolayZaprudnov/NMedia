@@ -11,7 +11,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_launcher_netology"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textLogin"
         android:layout_width="0dp"
@@ -23,13 +24,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/picture">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/edit_text_style"
-        android:inputType="textMultiLine"
-        app:layout_constraintTop_toBottomOf="@id/textLogin" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edit_text_style"
+            android:inputType="textMultiLine"
+            app:layout_constraintTop_toBottomOf="@id/textLogin" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,6 +54,7 @@
             app:layout_constraintTop_toBottomOf="@id/textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
     <Button
         android:id="@+id/buttonSignIn"
         android:layout_width="wrap_content"

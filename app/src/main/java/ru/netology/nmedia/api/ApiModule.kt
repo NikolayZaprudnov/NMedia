@@ -48,7 +48,6 @@ class ApiModule {
         .build()
 
 
-
     @Singleton
     @Provides
     fun provideRetrofit(

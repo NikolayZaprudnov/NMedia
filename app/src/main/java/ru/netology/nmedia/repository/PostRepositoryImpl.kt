@@ -1,8 +1,7 @@
 package ru.netology.nmedia.repository
 
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
+import androidx.paging.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -14,6 +13,8 @@ import ru.netology.nmedia.api.MediaApiService
 import ru.netology.nmedia.api.PostsApiService
 import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dao.PostDao
+import ru.netology.nmedia.dao.PostRemoteKeyDao
+import ru.netology.nmedia.db.AppDb
 import ru.netology.nmedia.dto.Attachment
 import ru.netology.nmedia.dto.Media
 import ru.netology.nmedia.dto.Post
@@ -25,24 +26,36 @@ import ru.netology.nmedia.error.NetworkError
 import ru.netology.nmedia.model.PhotoModel
 import java.io.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PostRepositoryImpl @Inject constructor(
     private val postDao: PostDao,
     private val apiService: PostsApiService,
     private val authApiService: AuthApiService,
-    private val mediaApiService: MediaApiService
+    private val mediaApiService: MediaApiService,
+    postRemoteKeyDao: PostRemoteKeyDao,
+    appDb: AppDb,
 ) : PostRepository {
 
 
     @Inject
     lateinit var appAuth: AppAuth
 
+    @OptIn(ExperimentalPagingApi::class)
     override val data = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false),
         pagingSourceFactory = {
-            PostPagingSourse(apiService)
-        }
+            postDao.getPagingSourse()
+        },
+        remoteMediator = PostRemoteMediator(apiService = apiService,
+            postDao = postDao,
+            postRemoteKeyDao = postRemoteKeyDao,
+            appDb = appDb,)
     ).flow
+        .map {
+            it.map(PostEntity::toDto)
+        }
 
     override fun getNewer(id: Long): Flow<Int> = flow {
         while (true) {

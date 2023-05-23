@@ -15,8 +15,7 @@
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="@id/emptyText"
-        app:layout_constraintEnd_toEndOf="@id/emptyText"
-        />
+        app:layout_constraintEnd_toEndOf="@id/emptyText" />
 
     <TextView
         android:id="@+id/emptyText"
@@ -38,21 +37,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/refresh">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/toolsTop"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/post_card" />
+        android:layout_height="match_parent"
+        android:id="@+id/refresh">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/toolsTop"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/post_card" />
 
 
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
     <androidx.constraintlayout.widget.Barrier
@@ -74,6 +75,7 @@
         app:layout_constraintEnd_toStartOf="@id/save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/toolsTop" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/newpost"
         android:layout_width="wrap_content"
@@ -82,7 +84,7 @@
         android:contentDescription="@string/add_post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_24"/>
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 
 
     <ImageButton

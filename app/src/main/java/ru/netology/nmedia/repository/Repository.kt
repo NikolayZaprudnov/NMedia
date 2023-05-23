@@ -18,7 +18,7 @@ interface PostRepository {
     suspend fun saveWithAttachment(postS: Post, photoModel: PhotoModel)
     suspend fun getAllAsynch()
     suspend fun showAll()
-    suspend fun updateUser(login: String, pass:String)
-    suspend fun registerUser(login: String, pass:String, name: String)
-    suspend fun registerWithPhoto(login: String, pass:String, name: String, avatar: PhotoModel)
+    suspend fun updateUser(login: String, pass: String)
+    suspend fun registerUser(login: String, pass: String, name: String)
+    suspend fun registerWithPhoto(login: String, pass: String, name: String, avatar: PhotoModel)
 }

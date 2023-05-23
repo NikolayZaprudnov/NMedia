@@ -73,13 +73,12 @@
         android:visibility="gone"
         app:constraint_referenced_ids="editText,notEdit,save,content" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="wrap_content">-->
-<!--    <include-->
-<!--        android:id="@+id/scrollOnePost"-->
-<!--        layout="@layout/post_card"/>-->
+</androidx.constraintlayout.widget.ConstraintLayout><!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content">-->
+    <!--    <include-->
+    <!--        android:id="@+id/scrollOnePost"-->
+    <!--        layout="@layout/post_card"/>-->
 
-<!--</ScrollView>-->
+    <!--</ScrollView>-->

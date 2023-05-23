@@ -13,10 +13,10 @@ class CheckRegistrationDialog : DialogFragment() {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             builder.setTitle("Необходимо войти / зарегистрироваться")
-                .setPositiveButton("Войти"){_,_ ->
+                .setPositiveButton("Войти") { _, _ ->
                     findNavController().navigate(R.id.action_feedFragment_to_signInFragment)
                 }
-                .setNegativeButton("Зарегистрироваться"){_,_ ->
+                .setNegativeButton("Зарегистрироваться") { _, _ ->
                     findNavController().navigate(R.id.action_feedFragment_to_registrationFragment)
                 }
             builder.create()

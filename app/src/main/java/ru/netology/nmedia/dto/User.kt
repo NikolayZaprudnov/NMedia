@@ -1,6 +1,6 @@
 package ru.netology.nmedia.dto
 
-data class User (
+data class User(
     val id: Long,
-    val token: String
-        )
+    val token: String,
+)

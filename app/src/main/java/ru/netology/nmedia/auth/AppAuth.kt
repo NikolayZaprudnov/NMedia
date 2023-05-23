@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import ru.netology.nmedia.api.AuthApiService
 import ru.netology.nmedia.api.PostsApiService
 import ru.netology.nmedia.dto.PushToken
 import javax.inject.Inject
@@ -75,7 +74,8 @@ class AppAuth @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val pushToken = PushToken(token ?: Firebase.messaging.token.await())
-                val entryPoint = EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
+                val entryPoint =
+                    EntryPointAccessors.fromApplication(context, AppAuthEntryPoint::class.java)
                 entryPoint.getApiService().saveToken(pushToken)
             } catch (e: Exception) {
                 e.printStackTrace()

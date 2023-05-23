@@ -28,11 +28,14 @@ class AppActivity : AppCompatActivity(R.layout.activity_app) {
 
             val text = it.getStringExtra(Intent.EXTRA_TEXT)
             if (text?.isNotBlank() != true) {
-                return@let}
+                return@let
+            }
             intent.removeExtra(Intent.EXTRA_TEXT)
-            findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container).navigate(R.id.action_feedFragment_to_newPostFragment, Bundle().apply {
-                textArg = text
-            })
+            findNavController(androidx.navigation.fragment.R.id.nav_host_fragment_container).navigate(
+                R.id.action_feedFragment_to_newPostFragment,
+                Bundle().apply {
+                    textArg = text
+                })
         }
 
     }

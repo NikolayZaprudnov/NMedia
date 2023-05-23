@@ -8,7 +8,6 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -124,7 +123,7 @@ class FeedFragment : Fragment() {
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
                 binding.refresh.isRefreshing = it.refresh is LoadState.Loading
-                        ||it.append is LoadState.Loading
+                        || it.append is LoadState.Loading
                         || it.prepend is LoadState.Loading
             }
         }
@@ -171,7 +170,9 @@ class FeedFragment : Fragment() {
 
         var menuProvider: MenuProvider? = null
         authViewModel.state.observe(viewLifecycleOwner) { authState ->
-            if(!authState.token.isNullOrEmpty()){adapter.refresh()}
+            if (!authState.token.isNullOrEmpty()) {
+                adapter.refresh()
+            }
             menuProvider?.let { requireActivity().removeMenuProvider(it) }
             requireActivity().addMenuProvider(
                 object : MenuProvider {

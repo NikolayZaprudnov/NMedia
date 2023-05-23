@@ -15,7 +15,7 @@ interface PostsApiService {
     suspend fun getAll(): Response<List<Post>>
 
     @GET("posts/latest")
-    suspend fun getLatest( @Query("count") count: Int): Response<List<Post>>
+    suspend fun getLatest(@Query("count") count: Int): Response<List<Post>>
 
     @POST("posts")
     suspend fun save(@Body post: Post): Response<Post>
@@ -24,7 +24,10 @@ interface PostsApiService {
     suspend fun getNewer(@Path("postId") id: Long): Response<List<Post>>
 
     @GET("posts/{postId}/before")
-    suspend fun getBefore(@Path("postId") id: Long, @Query("count") count: Int): Response<List<Post>>
+    suspend fun getBefore(
+        @Path("postId") id: Long,
+        @Query("count") count: Int,
+    ): Response<List<Post>>
 
     @GET("posts/{postId}/after")
     suspend fun getAfter(@Path("postId") id: Long, @Query("count") count: Int): Response<List<Post>>
@@ -49,18 +52,29 @@ interface PostsApiService {
 
 
 }
-interface MediaApiService{
+
+interface MediaApiService {
     @Multipart
     @POST("media")
     suspend fun uploadPhoto(@Part file: MultipartBody.Part): Response<Media>
 }
-interface AuthApiService{
+
+interface AuthApiService {
     @FormUrlEncoded
     @POST("users/authentication")
-    suspend fun updateUser(@Field("login") login: String, @Field("pass") pass: String): Response<User>
+    suspend fun updateUser(
+        @Field("login") login: String,
+        @Field("pass") pass: String,
+    ): Response<User>
+
     @FormUrlEncoded
     @POST("users/registration")
-    suspend fun registerUser(@Field("login") login: String, @Field("pass") pass: String, @Field("name") name: String): Response<User>
+    suspend fun registerUser(
+        @Field("login") login: String,
+        @Field("pass") pass: String,
+        @Field("name") name: String,
+    ): Response<User>
+
     @Multipart
     @POST("users/registration")
     suspend fun registerWithPhoto(

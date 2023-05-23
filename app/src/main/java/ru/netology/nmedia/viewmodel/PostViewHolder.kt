@@ -1,39 +1,14 @@
 package ru.netology.nmedia.viewmodel
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
-import android.view.Gravity.apply
 import android.view.View
 import android.widget.PopupMenu
-import androidx.core.content.ContextCompat.createDeviceProtectedStorageContext
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.view.GravityCompat.apply
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractionListener
 import ru.netology.nmedia.databinding.PostCardBinding
 import ru.netology.nmedia.dto.Post
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
-import ru.netology.nmedia.adapter.PostsAdapter
-import ru.netology.nmedia.databinding.FragmentFeedBinding
-import ru.netology.nmedia.viewmodel.PostViewModel
-import android.widget.Toast
-import androidx.activity.result.launch
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.navigation.Navigation
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
-import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import ru.netology.nmedia.activity.EditPostFragment.Companion.textArg
-import ru.netology.nmedia.activity.FeedFragment
-import ru.netology.nmedia.activity.OnePostFragment
-import ru.netology.nmedia.enumeration.AttachmentType
-import ru.netology.nmedia.util.AndroidUtils
 
 class PostViewHolder(
     private val binding: PostCardBinding,
