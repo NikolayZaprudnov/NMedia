@@ -5,10 +5,25 @@ import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import ru.netology.nmedia.BuildConfig
 import ru.netology.nmedia.R
 import ru.netology.nmedia.adapter.OnInteractionListener
+import ru.netology.nmedia.databinding.CardAdBinding
 import ru.netology.nmedia.databinding.PostCardBinding
+import ru.netology.nmedia.dto.Ad
 import ru.netology.nmedia.dto.Post
+
+class AdViewHolder(
+    private val binding: CardAdBinding,
+
+    ): RecyclerView.ViewHolder(binding.root){
+    fun bind(ad: Ad){
+        binding.apply {
+            Glide.with(imageAd)
+                .load("${BuildConfig.BASE_URL}/media/${ad.image}")
+        }
+    }
+}
 
 class PostViewHolder(
     private val binding: PostCardBinding,

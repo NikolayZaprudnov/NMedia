@@ -34,15 +34,14 @@ class PostRemoteMediator(
                     apiService.getBefore(id, state.config.pageSize)
                 }
                 LoadType.PREPEND -> {
-                    val id = postRemoteKeyDao.max() ?: return MediatorResult.Success(true)
-                    apiService.getAfter(id, state.config.pageSize)
+                    return MediatorResult.Success(true)
                 }
             }
             if (!result.isSuccessful) {
                 throw HttpException(result)
             }
             val body = result.body() ?: throw ApiError(result.code(), result.message())
-//            val nextKey = if (body.isEmpty()) null else body.last().id
+            if (body.isEmpty()) return MediatorResult.Success(false)
             appDb.withTransaction {
                 when (loadType) {
                     LoadType.REFRESH -> {

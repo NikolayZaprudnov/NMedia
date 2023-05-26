@@ -15,9 +15,7 @@ import ru.netology.nmedia.auth.AppAuth
 import ru.netology.nmedia.dao.PostDao
 import ru.netology.nmedia.dao.PostRemoteKeyDao
 import ru.netology.nmedia.db.AppDb
-import ru.netology.nmedia.dto.Attachment
-import ru.netology.nmedia.dto.Media
-import ru.netology.nmedia.dto.Post
+import ru.netology.nmedia.dto.*
 import ru.netology.nmedia.entity.*
 import ru.netology.nmedia.enumeration.AttachmentType
 import ru.netology.nmedia.error.ApiError
@@ -27,6 +25,7 @@ import ru.netology.nmedia.model.PhotoModel
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.random.Random
 
 @Singleton
 class PostRepositoryImpl @Inject constructor(
@@ -43,7 +42,7 @@ class PostRepositoryImpl @Inject constructor(
     lateinit var appAuth: AppAuth
 
     @OptIn(ExperimentalPagingApi::class)
-    override val data = Pager(
+    override val data: Flow<PagingData<FeedItem>> = Pager(
         config = PagingConfig(pageSize = 10, enablePlaceholders = false),
         pagingSourceFactory = {
             postDao.getPagingSourse()
@@ -55,6 +54,13 @@ class PostRepositoryImpl @Inject constructor(
     ).flow
         .map {
             it.map(PostEntity::toDto)
+                .insertSeparators { previos, _  ->
+                    if (previos?.id?.rem(5) == 0L){
+                        Ad(Random.nextLong(), "figma.jpg")
+                    }else{
+                        null
+                }
+                }
         }
 
     override fun getNewer(id: Long): Flow<Int> = flow {
