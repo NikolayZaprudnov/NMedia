@@ -131,10 +131,7 @@ class FeedFragment : Fragment() {
 
         lifecycleScope.launchWhenCreated {
             adapter.loadStateFlow.collectLatest {
-                binding.refresh.isVisible = it.refresh is LoadState.Loading
                 binding.refresh.isRefreshing = it.refresh is LoadState.Loading
-                        || it.append is LoadState.Loading
-                        || it.prepend is LoadState.Loading
             }
         }
 

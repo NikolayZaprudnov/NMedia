@@ -28,6 +28,8 @@ class PostsAdapter(
     private val onInteractionListener: OnInteractionListener,
 ) : PagingDataAdapter<FeedItem, RecyclerView.ViewHolder>(PostDiffCallBack()) {
 
+
+
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)){
             is Ad -> R.layout.card_ad
@@ -59,7 +61,13 @@ class PostsAdapter(
             null -> error("unknown item type")
         }
     }
+
 }
+
+data class PayLoad (
+    val likedByMe: Boolean? = null,
+    val content: String? = null,
+        )
 
 
 class PostDiffCallBack : DiffUtil.ItemCallback<FeedItem>() {
@@ -73,6 +81,14 @@ class PostDiffCallBack : DiffUtil.ItemCallback<FeedItem>() {
     override fun areContentsTheSame(oldItem: FeedItem, newItem: FeedItem): Boolean {
         return oldItem == newItem
     }
+
+//    override fun getChangePayload(oldItem: Post, newItem: Post): Any =
+//        PayLoad(
+//            likedByMe = newItem.likedByMe.takeIf{ it!= oldItem.likedByMe},
+//            content = newItem.content.takeIf { it != oldItem.content },
+//        )
+
+
 }
 
 
